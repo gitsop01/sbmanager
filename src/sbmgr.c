@@ -21,6 +21,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 
  * USA
+ *
  */
 
 #include <string.h>
@@ -39,7 +40,7 @@ static finished_cb_t finished_callback = NULL;
 GtkWidget *sbmgr_new()
 {
     if (!g_thread_supported())
-        g_thread_init(NULL);
+      /*  g_thread_init(NULL); g_thread_init is deprecated TW 26/04/13 */
 
     /* initialize device communication environment */
     device_init();
@@ -60,7 +61,12 @@ void sbmgr_load(const char *uuid, device_info_cb_t info_cb, finished_cb_t finish
     /* load icons */
     device_info_callback = info_cb;
     finished_callback = finished_cb;
-    g_thread_create((GThreadFunc)gui_pages_load_cb, (gpointer)uuid, FALSE, NULL);
+	
+	/* g_thread_create' is deprecated TW 26/04/13 */
+    /* g_thread_create((GThreadFunc)gui_pages_load_cb, (gpointer)uuid, FALSE, NULL); */
+	const gchar *name1 = "sbloadthd"; /* Name Added for debugging thread TW 20/05/13 */
+	g_thread_new(name1, (GThreadFunc)gui_pages_load_cb, (gpointer)uuid);
+
 }
 
 static gboolean iconstate_changed_v1(plist_t current_state, plist_t new_state)
