@@ -106,12 +106,16 @@ sbservices_client_t device_sbs_new(const char *uuid, uint32_t *osversion, GError
             }
         }
     }
-									/* service changed from &port to match libimobiledevice TW 17/04/13 */
+
+
     if ((lockdownd_start_service(client, "com.apple.springboardservices", &service) != LOCKDOWN_E_SUCCESS) || !service) {
         if (error)
             *error = g_error_new(device_domain, EIO, _("Could not start com.apple.springboardservices service! Remind that this feature is only supported in OS 3.1 and later!"));
         goto leave_cleanup;
+
     }					/* port changed to service to match libimobiledevice TW 19/04/13 */
+
+
     if (sbservices_client_new(phone, service, &sbc) != SBSERVICES_E_SUCCESS) {
         if (error)
             *error = g_error_new(device_domain, EIO, _("Could not connect to springboardservices!"));
