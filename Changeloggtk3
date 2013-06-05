@@ -1,8 +1,13 @@
  Timothy Ward <gtwa001@gmail> 2013
 
-This is a change log for sbmanager to GTK3 for Gnome3 and clutter 1.12-2 
+This is a change log for sbmanager to GTK3 for Gnome3.8 
+and Clutter Version 1.14-4-4 Development library.
 
-Change All Clutter deprecated functions to bring it up to clutter 1.12-2.
+Clutter Development Language
+Clutter-gst Version 1.6.0.6
+Clutter-gtk Version 1.4.4.1
+
+Change All Clutter deprecated functions to bring it up to clutter 1.14-4.
 There was a lot of deprecated functions as the Clutter API has changed a lot.
 
 Change code for all compiler warnings for both GTK3 and minor libimobiledevice 
@@ -15,7 +20,7 @@ For development test remove GTK2 library from development system
 to ensure the application still runs. The application should operate
 with both gtk2 and gtk3 libraries available but at the moment I have removed it
 from the development system to concentrate on changes above and debugging of code
-in general.
+in general. This may have been a bug in gtk2 library.
 
 Recompile using only gtk3 library installed.
 
@@ -44,9 +49,20 @@ or for debugging code in general.
 
 Gui-init - added error handling for new image file loading code.
 
-Fixed background color for folders, gui fade in/out and spinner routines and battery display which
-had not been altered in the original Clutter code update.
+Fixed background color for folders, gui fade in/out and spinner routines and
+battery display which had not been altered in the original Clutter code update.
 
 Code review for all clutter code to ensure correct functions are being used and arguments are correct
 after finding several clutter actor functions and/or arguments that were not correct.
+
+Trouble-shooting of icon why the are not following the mouse position when selected. WIP
+
+Trouble-shooting why folders are not being opened and closed correctly. WIP
+NOTE:check code in areas for commented out reparenting functions as folders were opening.
+
+Added comments to top of functions in gui.c to better understand their intent for trouble-shooting. WIP
+
+Refactoring code in several functions which are quite complicated for what they achieve. WIP
+
+Updated to clutter version 1.4-4-4 for Gnome3.8 This resulted in the Gui paging code working correctly.
 
