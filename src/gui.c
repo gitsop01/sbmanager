@@ -37,7 +37,7 @@
 
 #include <gtk/gtk.h>
 #include <clutter/clutter.h>
-#include <clutter-gtk/clutter-gtk.h>
+#include <clutter-gtk/clutter-gtk.h> 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "sbmgr.h"
@@ -2054,10 +2054,10 @@ static gboolean stage_key_press_cb(ClutterActor *actor, ClutterEvent *event, gpo
 
     guint symbol = clutter_event_get_key_symbol(event);
     switch(symbol) {
-        case CLUTTER_Right:
+        case CLUTTER_KEY_Right: /* altered for clutter-gst 1.6.6 */
         gui_show_next_page();
         break;
-        case CLUTTER_Left:
+        case CLUTTER_KEY_Left:	/* altered for clutter-gst 1.6.6 */
         gui_show_previous_page();
         break;
         default:
@@ -2928,7 +2928,7 @@ static void gui_set_wallpaper(const char *wp)
 	
 	/* THIS adds wallpaper to stage  TW 18/05/13 */
     
-   /*  clutter_actor_insert_child_below(CLUTTER_ACTOR(stage), actor, ((void *)0));   TEST TW 05/05/13 */
+     clutter_actor_insert_child_below(CLUTTER_ACTOR(stage), actor, ((void *)0));   /* TEST TW 05/05/13 */
      wallpaper = actor; 
     
     item_text_color.alpha = 255;
