@@ -2876,7 +2876,7 @@ static gboolean wait_icon_load_finished(gpointer user_data)
     return res;
 }
 
-#ifdef HAVE_LIBIMOBILEDEVICE_1_1_5
+/* #ifdef HAVE_LIBIMOBILEDEVICE_1_1_5 */
 static void gui_set_wallpaper(const char *wp)
 {
     GError *err = NULL;
@@ -2934,7 +2934,7 @@ static void gui_set_wallpaper(const char *wp)
     
     item_text_color.alpha = 255;
 }
-#endif
+/* #endif */
 
 static gboolean gui_pages_init_cb(gpointer user_data)
 {
@@ -2964,7 +2964,7 @@ static gboolean gui_pages_init_cb(gpointer user_data)
 
     if (sbc) {
         const char *fmt_version = NULL;
-#ifdef HAVE_LIBIMOBILEDEVICE_1_1_5
+/* #ifdef HAVE_LIBIMOBILEDEVICE_1_1_5 */
         if (osversion >= 0x04000000) {
             fmt_version = "2";
         }
@@ -2982,7 +2982,7 @@ static gboolean gui_pages_init_cb(gpointer user_data)
 	    }
 	    g_free (path);
         }
-#endif
+/* #endif */
         /* Load icon data */
         if (device_sbs_get_iconstate(sbc, &iconstate, fmt_version, &error)) {
             gui_set_iconstate(iconstate, fmt_version);
@@ -3108,7 +3108,7 @@ static void gui_update_layout(device_info_t info) {
     clutter_actor_set_position(spinner, (stage_area.x2 - 32.0) / 2, (stage_area.y2 - 64.0) / 2);
 	clutter_actor_set_size(fade_rectangle, stage_area.x2, stage_area.y2);
 
-#ifdef HAVE_LIBIMOBILEDEVICE_1_1_5
+/* #ifdef HAVE_LIBIMOBILEDEVICE_1_1_5 */
 	/* fprintf(stderr,"\nERROR: above clutter_set_size10: LINE 2653 \n");  TEST TW 03/05/13 */
     
 	/* This returns a Runtime error */
@@ -3119,7 +3119,7 @@ static void gui_update_layout(device_info_t info) {
 
 	/* fprintf(stderr, "\nactor-set-size-wallpaper- stage-area.x2 = %f stage-area.y2 = %f- */
     /* \n",stage_area.x2, stage_area.y2);  TEST TW 03/05/13 */
-#endif
+/* #endif */
 }
 
 static gboolean device_info_cb(gpointer user_data)
