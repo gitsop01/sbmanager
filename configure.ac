@@ -3,7 +3,11 @@
 
 $(LIBDIR) :/usr/lib64
 AC_PREREQ(2.61) # minimum version Autoconf to use.
+<<<<<<< HEAD
 AC_INIT(sbmanager, 0.2.1, www.github.com/gitsop01/sbmanager)
+=======
+AC_INIT(sbmanager, 0.2.0, www.git.com/gitsop/sbmanager)
+>>>>>>> 435b1e5... Update gapplication code
 AM_INIT_AUTOMAKE([dist-bzip2 no-dist-gzip])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
 AC_CONFIG_SRCDIR([src/])
@@ -82,7 +86,7 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 AC_OUTPUT([
 Makefile
 data/Makefile
-data/sbmanager.desktop.in
+data/github.com.gitsop01.sbmanager.desktop.in
 src/Makefile
 po/Makefile.in
 ])

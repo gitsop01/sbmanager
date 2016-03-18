@@ -757,11 +757,18 @@ plist_t gui_get_iconstate(const char *format_version)
     return iconstate;
 }
 
+<<<<<<< HEAD
     /* input
      * moves all sb-area icons to a specified coordinated position afaik
      * as the selected icon(mouse pointer) is moved around the stage
      * updates the glist info of the icon to its new position
      */
+=======
+    /* input */
+    /* Moves all sb-area icons to a specified coordinated position afaik */
+    /* as the selected icon(mouse pointer) is moved around the stage */
+    /* updates the glist info of the icon to its new position */
+>>>>>>> 435b1e5... Update gapplication code
 
 static gboolean stage_motion_cb(ClutterActor *actor, ClutterMotionEvent *event, gpointer user_data)
 {
@@ -1535,6 +1542,7 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
     return TRUE;
 }
 
+<<<<<<< HEAD
     /* returns false if no user data or double clicks and item not enabled,removes empty pages,
      * sets item enabled to false, counts number of pages if not current page - sets current page.
      * If actor, gets parent of actor and sets actor full size, sets opacity to 255 - if item is dock item
@@ -1542,6 +1550,14 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
      * position in dock, then calls function to align the dock items and another function to align the
      * page items of the current page
      */
+=======
+    /* Returns false if no user data or double clicks and item not enabled,removes empty pages, */
+    /* Sets item enabled to false, counts number of pages if not current page - sets current page. */
+    /* If actor, gets parent of actor and sets actor full size, sets opacity to 255 - if item is dock item */
+    /* Set dock item text color and position of text and label shadow, reparents actor to dock, sets actors */
+    /* position in dock, then calls function to align the dock items and another function to align the */
+    /* page items of the current page */
+>>>>>>> 435b1e5... Update gapplication code
 
 static gboolean item_button_release_cb(ClutterActor *actor, ClutterButtonEvent *event, gpointer user_data)
 {
@@ -1638,12 +1654,13 @@ static gboolean item_button_release_cb(ClutterActor *actor, ClutterButtonEvent *
 }
 
     /* FIXME Allow switching pages using left and right arrow keys - but does not work at present */
+	/* may need key code not symbol to work */
 static gboolean stage_key_press_cb(ClutterActor *actor, ClutterEvent *event, gpointer user_data)
 {
     if (!user_data || (event->type != CLUTTER_KEY_PRESS)) {
         return FALSE;
     }
-
+	
     guint symbol = clutter_event_get_key_symbol(event);
     switch(symbol) {
         case CLUTTER_KEY_Right: /* altered for clutter-gst 1.6.6 */
@@ -2074,18 +2091,6 @@ static gboolean sbitem_texture_new(gpointer data)
 	
 	 clutter_actor_set_content (actor, image);
 	 
-<<<<<<< HEAD
-	/* TW TEST 05/05/13 this does load all icon's on to wallpaper on top of each other */
-	/* clutter_actor_add_child(stage, actor); */
-
-
-	/* NOTE ACTORS are not added to stage THIS IS PROBABLY THE PROBLEM TW 10/05/13 FIXED 18/05/13 */
-	/* sbitem_texture_load_finished(CLUTTER_ACTOR(actor), NULL, (gpointer)item); test TW 07/06/13 does not work */
-	/* FIXME This does not work as the signal "completed"is deprecated so icon names and shadow do not work TW 07/06/13 */
-	g_signal_connect(CLUTTER_ACTOR(actor), "parent-set", G_CALLBACK(sbitem_texture_load_finished), (gpointer)item);
-
-	/* fprintf(stderr,"\nERROR: above clutter_set_size5: LINE 2194 \n"); TEST TW 03/05/13 */
-=======
 	/* This does load all icon's on to wallpaper on top of each other
 	 * clutter_actor_add_child(stage, actor);
 	 * NOTE ACTORS are not added to stage THIS IS PROBABLY THE PROBLEM TW 10/05/13 FIXED 18/05/13
@@ -2094,7 +2099,7 @@ static gboolean sbitem_texture_new(gpointer data)
      */
 
 	g_signal_connect(CLUTTER_ACTOR(actor), "parent-set", G_CALLBACK(sbitem_texture_load_finished), (gpointer)item);
->>>>>>> 8d84e84... Signed-off-by: Timothy Ward <gtwa001@gmail.com>
+
     clutter_actor_set_size(actor, device_info->home_screen_icon_width, device_info->home_screen_icon_height);
     clutter_actor_set_scale(actor, 1.0, 1.0);
 	
@@ -2417,12 +2422,7 @@ static gboolean gui_pages_init_cb(gpointer user_data)
         g_error_free(error);
         error = NULL;
     }
-<<<<<<< HEAD
 
-	/* increased time to 2500 from 500 for test BUT NOT REQUIRED TW 08/05/13 */
-
-=======
->>>>>>> 8d84e84... Signed-off-by: Timothy Ward <gtwa001@gmail.com>
     clutter_threads_add_timeout(500, (GSourceFunc)wait_icon_load_finished, NULL); 
 
     return FALSE;
@@ -2896,6 +2896,8 @@ void gui_deinit()
     clutter_timeline_stop(clock_timeline);
     device_info_free(device_info);
     gui_deinitialized = 1;
+
     /* FIXME All actors need to be g_object_unref(actor); */
+
 
 }
