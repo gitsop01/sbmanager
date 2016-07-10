@@ -10,6 +10,6 @@ Comment[it]=Organizza le icone della Springboard dell' iPhone/iPod Touch
 Comment[ja]=iPhone/iPod Touch の SpringBoard アイコンを管理します
 DBusActivatable=true
 Icon=sbmanager
-Exec=sbmanager
+Exec=gapplication launch github.com.gitsop01.sbmanager
 Categories=GNOME;GTK;Utility;
 StartupNotify=true

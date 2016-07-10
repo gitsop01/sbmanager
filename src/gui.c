@@ -757,18 +757,11 @@ plist_t gui_get_iconstate(const char *format_version)
     return iconstate;
 }
 
-<<<<<<< HEAD
     /* input
      * moves all sb-area icons to a specified coordinated position afaik
      * as the selected icon(mouse pointer) is moved around the stage
      * updates the glist info of the icon to its new position
      */
-=======
-    /* input */
-    /* Moves all sb-area icons to a specified coordinated position afaik */
-    /* as the selected icon(mouse pointer) is moved around the stage */
-    /* updates the glist info of the icon to its new position */
->>>>>>> 435b1e5... Update gapplication code
 
 static gboolean stage_motion_cb(ClutterActor *actor, ClutterMotionEvent *event, gpointer user_data)
 {
@@ -1542,7 +1535,6 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
     return TRUE;
 }
 
-<<<<<<< HEAD
     /* returns false if no user data or double clicks and item not enabled,removes empty pages,
      * sets item enabled to false, counts number of pages if not current page - sets current page.
      * If actor, gets parent of actor and sets actor full size, sets opacity to 255 - if item is dock item
@@ -1550,14 +1542,6 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
      * position in dock, then calls function to align the dock items and another function to align the
      * page items of the current page
      */
-=======
-    /* Returns false if no user data or double clicks and item not enabled,removes empty pages, */
-    /* Sets item enabled to false, counts number of pages if not current page - sets current page. */
-    /* If actor, gets parent of actor and sets actor full size, sets opacity to 255 - if item is dock item */
-    /* Set dock item text color and position of text and label shadow, reparents actor to dock, sets actors */
-    /* position in dock, then calls function to align the dock items and another function to align the */
-    /* page items of the current page */
->>>>>>> 435b1e5... Update gapplication code
 
 static gboolean item_button_release_cb(ClutterActor *actor, ClutterButtonEvent *event, gpointer user_data)
 {
@@ -2041,11 +2025,13 @@ static void sbitem_texture_load_finished(ClutterActor *texture, gpointer error, 
 
 
 	 
+
 	 /* Clutter-CRITICAL **: clutter_actor_show: assertion `CLUTTER_IS_ACTOR (self)' failed
 	  * Runtime error TW 10/05/13
       */
 
      clutter_actor_show(item->label);
+
 	   if (item->label_shadow) {
        clutter_actor_show(item->label_shadow); 
 	  } 
@@ -2105,9 +2091,6 @@ static gboolean sbitem_texture_new(gpointer data)
 	
     /* create item */
     item->texture = actor; 
-        if(item->texture == NULL){
-        fprintf(stderr, "\nERROR:item->texture = NULL\n");
-	}
 
     if (wallpaper) { 
         actor = clutter_clone_new(icon_shadow);
@@ -2118,10 +2101,12 @@ static gboolean sbitem_texture_new(gpointer data)
 
     char *txtval = sbitem_get_display_name(item);
     if (txtval) {
+
         item->label = clutter_text_new_with_text(ITEM_FONT, txtval);
         clutter_actor_hide(item->label); 
         
       /*  if (wallpaper) { */
+
             item->label_shadow = clutter_text_new_full(ITEM_FONT, txtval, &label_shadow_color);
             clutter_actor_hide(item->label_shadow);
     }
@@ -2491,7 +2476,8 @@ static void gui_update_layout(device_info_t info) {
     stage_area.y2 += ((ICON_SPACING*2) * info->home_screen_icon_rows);
     stage_area.y2 += DOCK_HEIGHT;
 
-    printf("%s: stage_area x: %f, y: %f, width: %f, height: %f\n", __func__, stage_area.x1, stage_area.y1, stage_area.x2, stage_area.y2);
+/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+/*    printf("%s: stage_area x: %f, y: %f, width: %f, height: %f\n", __func__, stage_area.x1, stage_area.y1, stage_area.x2, stage_area.y2); */
 
     /* update areas */
     dock_area.x1 = 0.0;
@@ -2499,14 +2485,16 @@ static void gui_update_layout(device_info_t info) {
     dock_area.x2 = stage_area.x2;
     dock_area.y2 = stage_area.y2;
 
-    printf("%s: dock_area x: %f, y: %f, width: %f, height: %f\n", __func__, dock_area.x1, dock_area.y1, dock_area.x2, dock_area.y2);
+/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+/*    printf("%s: dock_area x: %f, y: %f, width: %f, height: %f\n", __func__, dock_area.x1, dock_area.y1, dock_area.x2, dock_area.y2); */
 
     sb_area.x1 = 0.0;
     sb_area.y1 = ICON_SPACING;
     sb_area.x2 = stage_area.x2;
     sb_area.y2 = dock_area.y1;
 
-    printf("%s: sb_area x: %f, y: %f, width: %f, height: %f\n", __func__, sb_area.x1, sb_area.y1, sb_area.x2, sb_area.y2);
+/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+/*   printf("%s: sb_area x: %f, y: %f, width: %f, height: %f\n", __func__, sb_area.x1, sb_area.y1, sb_area.x2, sb_area.y2); */
 
     /* update triggers */
     left_trigger.x1 = -ICON_SPACING - 2;
@@ -2514,14 +2502,16 @@ static void gui_update_layout(device_info_t info) {
     left_trigger.x2 = -(ICON_SPACING / 2);
     left_trigger.y2 = stage_area.y2 - DOCK_HEIGHT - ICON_SPACING;
 
-    printf("%s: left_trigger x: %f, y: %f, width: %f, height: %f\n", __func__, left_trigger.x1, left_trigger.y1, left_trigger.x2, left_trigger.y2);
+/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+/*    printf("%s: left_trigger x: %f, y: %f, width: %f, height: %f\n", __func__, left_trigger.x1, left_trigger.y1, left_trigger.x2, left_trigger.y2); */
 
     right_trigger.x1 = stage_area.x2 + (ICON_SPACING / 2);
     right_trigger.y1 = ICON_SPACING;
     right_trigger.x2 = stage_area.x2 + (ICON_SPACING*2);
     right_trigger.y2 = stage_area.y2 - DOCK_HEIGHT - ICON_SPACING;
 
-    printf("%s: right_trigger x: %f, y: %f, width: %f, height: %f\n", __func__, right_trigger.x1, right_trigger.y1, right_trigger.x2, right_trigger.y2);
+/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+/*    printf("%s: right_trigger x: %f, y: %f, width: %f, height: %f\n", __func__, right_trigger.x1, right_trigger.y1, right_trigger.x2, right_trigger.y2); */
 
     /* update widget to new layout */
     gtk_widget_set_size_request(clutter_gtk_widget, stage_area.x2, stage_area.y2);
@@ -2579,7 +2569,7 @@ static gboolean device_info_cb(gpointer user_data)
 
 void gui_pages_load(const char *uuid, device_info_cb_t info_cb, finished_cb_t finished_cb)
 {
-    printf("%s: %s\n", __func__, uuid);
+ /*   printf("%s: %s\n", __func__, uuid); */
     finished_callback = finished_cb;
     device_info_callback = info_cb;
 
