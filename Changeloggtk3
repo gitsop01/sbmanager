@@ -1,4 +1,4 @@
- Timothy Ward <gtwa001@gmail> 2013-2015
+ Timothy Ward <gtwa001@gmail> 2013-2016
 
 This is a change log for sbmanager to GTK3  
 
@@ -90,8 +90,9 @@ Sbmanager version = 0.2.0
 
 gapplication code added for dbus activation for gnome 3  
 
-application runs on X window server as well as wayland
+Application runs on X window server as well as wayland
 
+Sbmanager version = 0.2.0 Branched tagged v0.2.0  first prerelease with all depreceated functions and debugging code.
 
-
+Sbmanager version = 0.2.1 Master Code cleanup with all deprecated code comments removed and gapplication code added.
 
