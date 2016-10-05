@@ -19,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
  * USA
  */
 #ifndef DEVICE_H
@@ -59,5 +59,6 @@ device_info_t device_info_new();
 void device_info_free(device_info_t device_info);
 gboolean device_poll_battery_capacity(const char *uuid, device_info_t *device_info, GError **error);
 gboolean device_get_info(const char *uuid, device_info_t *device_info, GError **error);
+extern gboolean VERBOSE;
 
 #endif

@@ -19,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
  * USA
  */
 
@@ -27,6 +27,7 @@
 #include <config.h> /* for GETTEXT_PACKAGE */
 #endif
 #include "sb.app.h"
+#include "device.h"
 
 typedef struct {
 
@@ -42,7 +43,7 @@ GtkWidget *btn_apply;
 GtkWidget *image;
 GtkWidget *buttonbox;
 
-
+gboolean VERBOSE = FALSE;
 char *match_uuid = NULL;
 char *current_uuid = NULL;
 
@@ -135,6 +136,7 @@ static gboolean  option_version;
 static gchar *option_uuid;
 
 
+
 static GOptionEntry options[] = {
         { "debug", 'd',      0, G_OPTION_ARG_NONE, NULL, N_("Enable communication debugging"), NULL },
         { "debug-app", 'D',  0, G_OPTION_ARG_NONE, NULL, N_("Enable application debug messages"), NULL },
@@ -164,6 +166,7 @@ sb_app_command_line (GApplication            *app,
         gboolean *option_debug = FALSE;
         gboolean *option_debug_app = FALSE;
         gboolean *option_verbose = FALSE;
+         /*         VERBOSE = FALSE; */
  /*       static gchar *option_uuid[40]; */
          
         debug_printf("In sb-app-command line\n");
@@ -181,7 +184,8 @@ sb_app_command_line (GApplication            *app,
         } else if (option_debug_app) {
            set_debug(TRUE);    
         } else if (option_verbose) {
-                /* FIXME add verbose debugging */
+             VERBOSE = TRUE;
+             printf(" Option not active");
         }
 
 		/* else if ((strlen(option_uuid) != 40)) { */
