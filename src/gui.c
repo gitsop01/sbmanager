@@ -530,9 +530,11 @@ static void gui_page_align_icons(guint page_num, gboolean animated)
     }
 }
 
-    /* aligns page-indicator-group dots on page - alignment visually seems to work except */
-    /* when changing from page two back to page one - page indicators are on the l/h/s not  */
-    /* in centre of page sometimes */
+    /**
+     * Aligns page-indicator-group dots on page - alignment visually seems to work except
+     * when changing from page two back to page one - page indicators are on the l/h/s not
+     * in centre of page sometimes
+     **/
 
 static void gui_page_indicator_group_align()
 {
@@ -757,11 +759,12 @@ plist_t gui_get_iconstate(const char *format_version)
     return iconstate;
 }
 
-    /* input
-     * moves all sb-area icons to a specified coordinated position afaik
+    /**
+     * input
+     * Moves all sb-area icons to a specified coordinated position afaik
      * as the selected icon(mouse pointer) is moved around the stage
      * updates the glist info of the icon to its new position
-     */
+     **/
 
 static gboolean stage_motion_cb(ClutterActor *actor, ClutterMotionEvent *event, gpointer user_data)
 {
@@ -769,10 +772,11 @@ static gboolean stage_motion_cb(ClutterActor *actor, ClutterMotionEvent *event, 
     if (!selected_item) {
         return FALSE;
     } 
-     /* The parent will be either the sb-area or dock-area for all icons, folders etc so the reference to the parent
+     /**
+      * The parent will be either the sb-area or dock-area for all icons, folders etc so the reference to the parent
       * seems to be used to see if the icon is being moved between sb-area actor and dock-area actor parent
       * But not for subitems icons of folders or cloned actors unless added to stage or another actor
-      */
+      **/
 
      ClutterActor *icon = clutter_actor_get_parent(selected_item->texture);
 	if(icon == NULL){
@@ -866,11 +870,12 @@ static gboolean stage_motion_cb(ClutterActor *actor, ClutterMotionEvent *event, 
     return TRUE;
 }
 
-    /* Handles page-indicator-dots clicked by mouse- and calls  gui-set-current-page() with pageindex for
+    /**
+     * Handles page-indicator-dots clicked by mouse- and calls  gui-set-current-page() with pageindex for
      * the page-indicator  that was clicked.
      * This function or gui-set-current page does not work properly and is erratic from page 1 to 2 and
      * from page 2 to 1.
-     */
+     **/
 
 static gboolean page_indicator_clicked_cb(ClutterActor *actor, ClutterButtonEvent *event, gpointer data)
 {
@@ -884,11 +889,12 @@ static gboolean page_indicator_clicked_cb(ClutterActor *actor, ClutterButtonEven
     return TRUE;
 }
 
-    /* Gets parent of grp -then counts the number of actors in grp, get the actors name at index,
+    /**
+     * Gets parent of grp -then counts the number of actors in grp, get the actors name at index,
      * compares to name in original mini, if not in minigrp destroy actor , then clones a new
      * actor and rebuilds the minigrp again with the new names, adds minigrp to grp
      * NOTE: FIXME REFACTOR to produce the folder open and close views in a single function if possible
-     */
+     **/
 
 static void gui_folder_redraw_subitems(SBItem *item)
 {
@@ -924,8 +930,10 @@ static void gui_folder_redraw_subitems(SBItem *item)
 
 			/* ClutterActor *parent = clutter_actor_get_parent(suba);  TW 24/04/13 */
 
-			/* NOTE cloned actors have no parent or children until added to another actor */
-            /* They use the same source for painting */
+            /**
+             * NOTE cloned actors have no parent or children until added to another actor
+             * They use the same source for painting
+             **/
 
             clutter_actor_add_child(CLUTTER_ACTOR(minigrp), suba);
             clutter_actor_set_scale(suba, 0.22, 0.22);
@@ -985,11 +993,12 @@ static void gui_folder_align_icons(SBItem *item, gboolean animated)
     }
 }
 
-  /* This sets the new name label and label shadow of the icon and reparents the icon to a new folder???
+  /**
+   * This sets the new name label and label shadow of the icon and reparents the icon to a new folder???
    * hides the actor, calls to redraw the folder subitems, then destroys the original folder and
    * aniupper and anilower stage shots
    * NOTE FIXME REFACTOR to produce the folder open and close views in a single or two functions if possible
-   */
+   **/
 
 static gboolean folderview_close_finish(gpointer user_data)
 {
@@ -1062,9 +1071,10 @@ static gboolean folderview_close_finish(gpointer user_data)
     return FALSE;
 }
 
-    /* NOTE FIXME REFACTOR to produce the folder open and close views
+    /**
+     * NOTE FIXME REFACTOR to produce the folder open and close views
      * in a single or two function if possible
-     */
+     **/
 
 static void folderview_close(SBItem *folderitem)
 {
@@ -1098,9 +1108,10 @@ static gboolean folderview_close_cb(ClutterActor *actor, ClutterButtonEvent *eve
     return TRUE;
 }
 
-    /* NOTE FIXME REFACTOR to produce the folder open and close views
+    /**
+     * NOTE FIXME REFACTOR to produce the folder open and close views
      * in a single or two functions if possible
-     */
+     **/
 
 static gboolean folderview_open_finish(gpointer user_data)
 {
@@ -1117,11 +1128,12 @@ static gboolean folderview_open_finish(gpointer user_data)
     return FALSE;
 }
 
-    /*  Dims the springboard and dock icons, hides page indicators group, takes two screen
+    /**
+     *  Dims the springboard and dock icons, hides page indicators group, takes two screen
      *  shots(aniupper/anilower) of the stage adds actors aniupper/anilower to stage, create
      *  a new clone folder and add to stage,
      *  NOTE FIXME REFACTOR to produce the folder open and close views in a single or two functions if possible
-     */
+     **/
 
 static void folderview_open(SBItem *item)
 {
@@ -1333,9 +1345,10 @@ static void folderview_open(SBItem *item)
     ClutterActor *marker = clutter_clone_new(folder_marker);
 	
 
-    /*  NOTE cloned actors have no parent or children untill added to another actor
+    /**
+     *  NOTE cloned actors have no parent or children untill added to another actor
      *  They use the same source for painting
-     */
+     **/
 
     clutter_actor_add_child(CLUTTER_ACTOR(folder), marker);
     if (is_dock_folder) {
@@ -1383,11 +1396,12 @@ static void folderview_open(SBItem *item)
 	
 
 	
-	/* FIXME TW 11/05/13 THIS NEEDS TO BE FIXED FIND OUT WHAT "ACT" WAS AND ALTER CODE TO FIX
+	/**
+     * FIXME TW 11/05/13 THIS NEEDS TO BE FIXED FIND OUT WHAT "ACT" WAS AND ALTER CODE TO FIX
 	 * clutter_actor_set_easing_mode (act, CLUTTER_EASE_IN_OUT_QUAD);act flagged by compiler TW 26/04/13
 	 * clutter_actor_set_easing_duration (CLUTTER_ACTOR(act), FOLDER_ANIM_DURATION);act flagged by compiler TW 26/04/13
 	 * clutter_actor_set_height (act, fh); act flagged by compiler TW 26/04/13
-     */
+     **/
 
 
 	clutter_actor_set_easing_mode (folder, CLUTTER_EASE_IN_OUT_QUAD);
@@ -1410,10 +1424,11 @@ static void folderview_open(SBItem *item)
 }
 
 
-    /* If actor is clicked once increase its size???, it reparents it for some reason??,  and sets is opacity
+    /**
+     * If actor is clicked once increase its size???, it reparents it for some reason??,  and sets is opacity
      * Double click on folder will go to folderview_open()
      * If dock item it sets up text name and text color for the icon (actor)
-     */
+     **/
 
 static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *event, gpointer user_data)
 {
@@ -1476,23 +1491,24 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
             diffy = sb_area.y1; */
         }
 
-		/* clutter_actor_reparent' is deprecated TW 21/04/13 */
-        /* clutter_actor_reparent(sc, stage); */
-		
+
+
         /* NOTE TW 10/05/13 sc could be sb_area or dock_area or stage */
 		
- 		/* As all actors (icons) are added to either sb-area or dock_area reparenting may not be required */
-		/* Reparenting the actor results in the actor going back to 0.0 on the sb_area or 0.0 on the dock area - because it is removed from */
-        /* its original position then added to stage it resets it x and y coordintes */
-		/* when you click on it from this point it moves down only, but it raised to the top and will move over the top of other icons */
-        /* as all actors where added to the stage sc should be the stage so reparenting them should not be necessary */
+        /**
+         * As all actors (icons) are added to either sb-area or dock_area reparenting may not be required
+         * Reparenting the actor results in the actor going back to 0.0 on the sb_area or 0.0 on the dock area - because it is removed from
+         * its original position then added to stage it resets it x and y coordintes
+         * when you click on it from this point it moves down only, but it raised to the top and will move over the top of other icons
+         * as all actors where added to the stage sc should be the stage so reparenting them should not be necessary
+         **/
 
 
         /* FIXME- ensure a reference is added before removing child actor - Clutter reference manual */
 		
-         /* clutter_actor_add_action( actor, clutter_drag_action_new());  ADDED FOR TEST TW 06/06/13 */
-         /*clutter_actor_set_reactive(actor, TRUE); */
-        /*   clutter_actor_add_contraint */
+         /*  clutter_actor_add_action( actor, clutter_drag_action_new());  ADDED FOR TEST TW 06/06/13 */
+         /*  clutter_actor_set_reactive(actor, TRUE); */
+         /*  clutter_actor_add_contraint */
 
           g_object_ref(actor); 
           clutter_actor_remove_child(sc, actor);  /* TEST TW 12/05/13 */
@@ -1507,11 +1523,12 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
 	    /* clutter_actor_insert_child_above(stage, sc, ((void *)0) ); */
 
 		/* clutter_actor_set_scale_full' is deprecated TW 21/04/13		
-		clutter_actor_set_scale_full(sc, 1.2, 1.2,
+
+        clutter_actor_set_scale_full(sc, 1.2, 1.2,
                                      clutter_actor_get_x(actor) +
                                      clutter_actor_get_width(actor) / 2,
                                      clutter_actor_get_y(actor) + clutter_actor_get_height(actor) / 2); */
-        
+
         /* Added clutter set pivot point to mimic original code TW 25/05/13 */
         /* This made the icon disappear of stage when actor first clicked */
         /* clutter_actor_set_pivot_point(actor, clutter_actor_get_x(actor) +
@@ -1535,13 +1552,14 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
     return TRUE;
 }
 
-    /* returns false if no user data or double clicks and item not enabled,removes empty pages,
+    /**
+     * Returns false if no user data or double clicks and item not enabled,removes empty pages,
      * sets item enabled to false, counts number of pages if not current page - sets current page.
      * If actor, gets parent of actor and sets actor full size, sets opacity to 255 - if item is dock item
      * set dock item text color and position of text and label shadow, reparents actor to dock, sets actors
      * position in dock, then calls function to align the dock items and another function to align the
      * page items of the current page
-     */
+     **/
 
 static gboolean item_button_release_cb(ClutterActor *actor, ClutterButtonEvent *event, gpointer user_data)
 {
@@ -1659,10 +1677,11 @@ static gboolean stage_key_press_cb(ClutterActor *actor, ClutterEvent *event, gpo
     return TRUE;
 }
 
-    /* Handle button press on subitem icon in folder, reparent icon from folder to stage ??? why,
+    /**
+     * Handle button press on subitem icon in folder, reparent icon from folder to stage ??? why,
      * set position and scales the actor to 1.2, sets opacity of actor to 160,
      * resets co-ordinates to clicked position
-     */
+     **/
 
 static gboolean subitem_button_press_cb(ClutterActor *actor, ClutterButtonEvent *event, gpointer user_data)
 {
@@ -1695,13 +1714,14 @@ static gboolean subitem_button_press_cb(ClutterActor *actor, ClutterButtonEvent 
 		ClutterActor *sc = clutter_actor_get_parent(actor);
 		/* diffy = split_pos + clutter_actor_get_y(aniupper); */
 
-    /* FIXME Check that sc parent is the stage and alter code below as required
+    /**
+     * FIXME Check that sc parent is the stage and alter code below as required
      * aquire reference before removing actor
      * g_object_ref(actor);
      * clutter_actor_remove_child(sc, actor);
      * clutter_actor_set_position(sc, clutter_actor_get_x(sc) + diffx, clutter_actor_get_y(sc) + diffy);
      * clutter_actor_insert_child_above(stage, actor, ((void *)0));
-     */
+     **/
      clutter_actor_set_pivot_point(sc, clutter_actor_get_x(actor) +
                                      clutter_actor_get_width(actor) / 2,
                                      clutter_actor_get_y(actor) + clutter_actor_get_height(actor) / 2);
@@ -1715,11 +1735,12 @@ static gboolean subitem_button_press_cb(ClutterActor *actor, ClutterButtonEvent 
     return TRUE;
 }
 
-   /* Check for user-data(???) discards double clicks, ensure item is enabled, if not then sets item enabled = false
+   /**
+    * Check for user-data(???) discards double clicks, ensure item is enabled, if not then sets item enabled = false
     * If actor, gets actors parent as sc, sets scale full on actor, sets opacity to 255, Reparents actor-
     * removes actor from original parent and adds to folder, sets position de-selects the item then calls
     * gui-folder-align-icons. If selected folder calls gui-folder-redraw-subitems on selected folder
-    */
+    **/
 
 static gboolean subitem_button_release_cb(ClutterActor *actor, ClutterButtonEvent *event, gpointer user_data)
 {
@@ -1774,7 +1795,8 @@ static gboolean subitem_button_release_cb(ClutterActor *actor, ClutterButtonEven
 
     return TRUE;
 }
-    /* NOTE: grp is the parent of the item 
+    /**
+     * NOTE: grp is the parent of the item
      * Draws folder subitems using a new minigrp actor sets actors name to "mini" adds minigrp to grp actor
      * In a loop creates new actors ,finds actual subitems in list and creates new subitems  adds actors to
      * new sgrp, sets actors position and shows it. Creates icon shadow and label and adds these to sgrp then
@@ -1782,7 +1804,7 @@ static gboolean subitem_button_release_cb(ClutterActor *actor, ClutterButtonEven
      * for button press and release events and shows actor, then sets up label adds to actor, adds actor to sgrp
      * then adds sgrp to grp actor. Clones subitem original actor as suba actor, scales the new actor adds to minigrp
      * sets its position if lass than 9 subitems shows the actor, otherwise hides the actor
-     */
+     **/
 
 
 static void gui_folder_draw_subitems(SBItem *item)
@@ -1848,9 +1870,10 @@ static void gui_folder_draw_subitems(SBItem *item)
 				fprintf(stderr, "\n%s: suba = clutter_clone_new = NULL\n", __func__); /* TEST TW 28/04/13 */
 			}
 
-            /* NOTE cloned actors have no parent or children untill added to another actor
+            /**
+             * NOTE cloned actors have no parent or children untill added to another actor
              * They use the same source for painting
-             */
+             **/
 
 			clutter_actor_add_child(CLUTTER_ACTOR(minigrp), suba);
 
@@ -1991,19 +2014,19 @@ static void sbitem_texture_load_finished(ClutterActor *texture, gpointer error, 
 { 
     SBItem *item = (SBItem *)data; 
 
-     /* This adds another smaller icon below the larger icon on sb_area and dock_area
-	  *  if (item->texture_shadow) {
-	  * fprintf(stderr,"\nsbitem_texture_load_finished: in item->texture_shadow LINE 2454\n");  TEST TW 08/05/13
+     /**
+      * This adds another smaller icon below the larger icon on sb_area and dock_area
+      *  if (item->texture_shadow) {
+      * fprintf(stderr,"\nsbitem_texture_load_finished: in item->texture_shadow LINE 2454\n");  TEST TW 08/05/13
       * clutter_actor_show(item->texture_shadow);
       * }
-      */
+      **/
 
 
-	 
-
-	 /* Clutter-CRITICAL **: clutter_actor_show: assertion `CLUTTER_IS_ACTOR (self)' failed
-	  * Runtime error TW 10/05/13
-      */
+     /** 
+      * Clutter-CRITICAL **: clutter_actor_show: assertion `CLUTTER_IS_ACTOR (self)' failed
+      * Runtime error TW 10/05/13
+      **/
 
      clutter_actor_show(item->label);
 
@@ -2043,12 +2066,13 @@ static gboolean sbitem_texture_new(gpointer data)
 	
 	 clutter_actor_set_content (actor, image);
 	 
-	/* This does load all icon's on to wallpaper on top of each other
-	 * clutter_actor_add_child(stage, actor);
-	 * NOTE ACTORS are not added to stage THIS IS PROBABLY THE PROBLEM TW 10/05/13 FIXED 18/05/13
+    /**
+     * This does load all icon's on to wallpaper on top of each other
+     * clutter_actor_add_child(stage, actor);
+     * NOTE ACTORS are not added to stage THIS IS PROBABLY THE PROBLEM TW 10/05/13 FIXED 18/05/13
      * sbitem_texture_load_finished(CLUTTER_ACTOR(actor), NULL, (gpointer)item); test TW 07/06/13 does not work
-	 * FIXME This does not work as the signal "completed"is deprecated so icon names and shadow do not work TW 07/06/13
-     */
+     * FIXME This does not work as the signal "completed"is deprecated so icon names and shadow do not work TW 07/06/13
+     **/
 
 	g_signal_connect(CLUTTER_ACTOR(actor), "parent-set", G_CALLBACK(sbitem_texture_load_finished), (gpointer)item);
 
@@ -2488,13 +2512,14 @@ static void gui_update_layout(device_info_t info) {
 
 
     
-	/* This returns a Runtime error
-	 * Clutter-CRITICAL **: clutter_actor_set_size: assertion `CLUTTER_IS_ACTOR (self)' failed
+    /**
+     * This returns a Runtime error
+     * Clutter-CRITICAL **: clutter_actor_set_size: assertion `CLUTTER_IS_ACTOR (self)' failed
      * The wallpaper argument seems to be the cause - use standard clutter functions
-	 * clutter_actor_set_size(wallpaper, stage_area.x2, stage_area.y2);
-	 * fprintf(stderr, "\nactor-set-size-wallpaper- stage-area.x2 = %f stage-area.y2 = %f-
+     * clutter_actor_set_size(wallpaper, stage_area.x2, stage_area.y2);
+     * fprintf(stderr, "\nactor-set-size-wallpaper- stage-area.x2 = %f stage-area.y2 = %f-
      * \n",stage_area.x2, stage_area.y2);  TEST TW 03/05/13
-     */
+     **/
 
 }
 
@@ -2556,19 +2581,21 @@ GtkWidget *gui_init()
 
     /* if (!g_thread_supported()) */
        
-		/* g_thread_init' is deprecated	No longer necessary TW 24/04/13
+        /**
+         * g_thread_init' is deprecated	No longer necessary TW 24/04/13
          * The glib threading system is automatically initialised at the start
          * of the program - Glib Reference manual
-		 * g_thread_init(NULL);
-         */
+         * g_thread_init(NULL);
+         **/
 
-        /*  if (icon_loader_mutex == NULL)
-		 *  g_mutex_new  is deprecated TW 24/04/13
-    	 *  icon_loader_mutex = g_mutex_new();
+        /**
+         *  if (icon_loader_mutex == NULL)
+         *  g_mutex_new  is deprecated TW 24/04/13
+         *  icon_loader_mutex = g_mutex_new();
          * Threading support is initialized when Clutter is initialized
          * reference : Clutter Reference Manual
          * initialize clutter threading environment
-         */
+         **/
 
     if (!clutter_threads_initialized) {
 		/* 'clutter_threads_init' is deprecated  No Longer required TW 26/04/13 */
@@ -2829,9 +2856,10 @@ GtkWidget *gui_init()
     /* Position and update the clock */
     clock_set_time(clock_label, time(NULL));
     
-    /* FIXME There is no initial positioning of actor set, so this may be why the clock appears on the
+    /**
+     * FIXME There is no initial positioning of actor set, so this may be why the clock appears on the
      * r/h side where the battery is normally located, on start up TW 23/05/13
-     */
+     **/
     
     clutter_actor_show(clock_label);
 
@@ -2851,7 +2879,7 @@ void gui_deinit()
     device_info_free(device_info);
     gui_deinitialized = 1;
 
-    /* FIXME All actors need to be g_object_unref(actor); */
 
+    /* FIXME All actors need to be g_object_unref(actor); */
 
 }

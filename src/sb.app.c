@@ -391,6 +391,11 @@ sb_app_dispose (GObject *object)
         G_OBJECT_CLASS (sb_app_parent_class)->dispose (object);
 }
 
+static void
+sb_app_finalize(GObject *object)
+{
+    G_OBJECT_CLASS (sb_app_parent_class)->finalize (object);
+}
 
 static void
 sb_app_class_init (SbAppClass *klass)
@@ -404,5 +409,6 @@ sb_app_class_init (SbAppClass *klass)
         application_class->command_line = sb_app_command_line;
 
          object_class->dispose = sb_app_dispose;
+         object_class->finalize = sb_app_finalize;
 }
 
