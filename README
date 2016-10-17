@@ -2,6 +2,9 @@ SBManager
 ----------
 Timothy Ward <gtwa001@gmail.com>
 
+Please note-the master branch has been rebased on 17/10/16
+to clean up the code base.
+
 This application works on gnome3 X11 and gnome-on-wayland.
 
 This code relies heavy on libimobiledevice communication
