@@ -78,14 +78,6 @@ sbservices_client_t device_sbs_new(const char *uuid, uint32_t *osversion, GError
     lockdownd_client_t client = NULL;
     lockdownd_service_descriptor_t service = NULL;
 
-<<<<<<< HEAD
-    printf("%s: %s\n", __func__, uuid);
-=======
-/*    printf("%s: %s\n", __func__, uuid); */
-	
-	/* g_mutex_init(idevice_mutex);  Added here to test TW 28/04/13 */
->>>>>>> ff467d4... gapplication update
-
         if (!device_connect(uuid, &phone, &client, error)) {
         goto leave_cleanup;
     }

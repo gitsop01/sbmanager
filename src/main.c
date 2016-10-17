@@ -47,38 +47,6 @@ gpointer device_add_cb(gpointer user_data)
     return NULL;
 }
 
-<<<<<<< HEAD
-static void device_event_cb(const idevice_event_t *event, void *user_data)
-{
-    if (event->event == IDEVICE_DEVICE_ADD) {
-	
-        if (!current_uuid && (!match_uuid || !strcasecmp(match_uuid, event->udid))) {
-			debug_printf("Device add event: adding device %s\n", event->udid);
-			
-            current_uuid = g_strdup(event->udid);
-			const gchar *name3 = "devevcbthrd"; /* thread name added for debugging TW */
-
-			g_thread_new(name3, device_add_cb, current_uuid);
-
-        } else {
-			
-            debug_printf("Device add event: ignoring device %s\n", event->udid);
-        }
-    } else if (event->event == IDEVICE_DEVICE_REMOVE) {
-		
-        if (current_uuid && !strcasecmp(current_uuid, event->udid)) {
-			debug_printf("Device remove event: removing device %s\n", event->udid);
-            free(current_uuid);
-            current_uuid = NULL;
-            sbmgr_cleanup();
-        } else {
-			debug_printf("Device remove event: ignoring device %s\n", event->udid);
-        }
-    }
-}
-
-
-
 
 int main(int argc, char **argv)
 {

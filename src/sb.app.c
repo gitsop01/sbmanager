@@ -211,21 +211,20 @@ sb_app_init (SbApp *app)
 
 
 
-/** static void
-*sbapp_quit_cb (GSimpleAction *action,
-*         GVariant      *parameter,
-*         gpointer       user_data)
-* {
-*        SbApp *app = SB_APP (user_data);
-*        GList *l;
-*
-*         Remove all windows registered in the application
-*        while ((l = gtk_application_get_windows (GTK_APPLICATION (app)))) {
-*                gtk_application_remove_window (GTK_APPLICATION (app),
-*                                              GTK_WINDOW (l->data));
-*        }
-*}
-**/
+static void
+sbapp_quit_cb (GSimpleAction *action,
+         GVariant      *parameter,
+         gpointer       user_data)
+{
+       SbApp *app = SB_APP (user_data);
+       
+
+       /*  quit the application */
+      g_application_quit (G_APPLICATION (app));
+                                              
+       
+}
+
 
 SbApp *
 sb_app_start (GApplication *application)
@@ -386,7 +385,7 @@ sb_app_dispose (GObject *object)
 {
      /*   SbApp *app = SB_APP (object); */
 /*        SbAppPrivate *priv = sb_app_get_instance_private (app); */
-
+          sbapp_quit_cb(NULL,NULL,NULL);
 
         G_OBJECT_CLASS (sb_app_parent_class)->dispose (object);
 }
