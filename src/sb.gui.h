@@ -1,6 +1,6 @@
 /**
- * iconstate.h
- * Serialization of iconstate from/to GList's (header file)
+ * sb.gui.h
+ * GUI definitions.
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
  * Copyright (C) 2009-2010 Martin Szulecki <opensuse@sukimashita.com>
@@ -19,22 +19,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  */
 
-#ifndef ICONSTATE_H
-#define ICONSTATE_H
+#ifndef GUI_H
+#define GUI_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <gtk/gtk.h>
 #include <plist/plist.h>
-#include <glib.h>
+#include "sb.mgr.h"
 
-#include "iconstate.h"
+typedef struct {
+    char *uuid;
+    device_info_t device_info;
+} SBManagerData;
 
-GList * iconstate_to_g_list(plist_t iconstate, GError **error);
-plist_t g_list_to_iconstate(GList *iconstate, GError **error);
+GtkWidget *gui_init();
+void gui_deinit();
+void gui_pages_load(const char *uuid, device_info_cb_t info_callback, finished_cb_t finshed_callback);
+void gui_pages_free();
+
+plist_t gui_get_iconstate(const char *format_version);
+
 
 #endif

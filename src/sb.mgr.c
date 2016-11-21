@@ -1,5 +1,5 @@
 /**
- * sbmgr.c
+ * sb.mgr.c
  * SBManager Widget implementation.
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
@@ -20,7 +20,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  *
  */
@@ -30,10 +30,10 @@
 #include <gtk/gtk.h>
 #include <plist/plist.h>
 
-#include "sbmgr.h"
-#include "device.h"
-#include "gui.h"
-#include "utility.h"
+#include "sb.mgr.h"
+#include "sb.device.h"
+#include "sb.gui.h"
+#include "sb.utility.h"
 
 static device_info_cb_t device_info_callback = NULL;
 static finished_cb_t finished_callback = NULL;
@@ -88,7 +88,7 @@ static gboolean iconstate_changed_v1(plist_t current_state, plist_t new_state)
         plist_t cur_pp = plist_array_get_item(current_state, i);
         plist_t new_pp = plist_array_get_item(new_state, i);
         uint32_t cur_row_cnt = plist_array_get_size(cur_pp);
-        uint32_t new_row_cnt = plist_array_get_size(new_pp);	
+        uint32_t new_row_cnt = plist_array_get_size(new_pp);
         if (cur_row_cnt != new_row_cnt) {
             fprintf(stderr, "%s: number of rows on page %d changed: old %d, new %d, this is NOT expected!\n", __func__, i, cur_row_cnt, new_row_cnt);
             return FALSE;
@@ -158,7 +158,7 @@ static gboolean iconstate_changed_v2(plist_t current_state, plist_t new_state)
         }
 
         uint32_t cur_item_cnt = plist_array_get_size(cur_pp);
-        uint32_t new_item_cnt = plist_array_get_size(new_pp);	
+        uint32_t new_item_cnt = plist_array_get_size(new_pp);
         if (cur_item_cnt != new_item_cnt) {
             fprintf(stderr, "%s: number of items on page %d changed: old %d, new %d\n", __func__, i, cur_item_cnt, new_item_cnt);
             return TRUE;
@@ -275,7 +275,7 @@ void sbmgr_cleanup()
 }
 
 void sbmgr_finalize()
-{ 
+{
     sbmgr_cleanup();
     gui_deinit();
 }

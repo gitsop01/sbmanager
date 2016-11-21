@@ -1,5 +1,5 @@
 /**
- * device.c
+ * sb.device.c
  * Device communication functions.
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
@@ -20,7 +20,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  *
  */
@@ -38,7 +38,7 @@
 #include <libimobiledevice/lockdown.h>
 #include <libimobiledevice/sbservices.h>
 
-#include "device.h"
+#include "sb.device.h"
 
 static GQuark device_domain = 0;
 
@@ -364,7 +364,7 @@ gboolean device_get_info(const char *uuid, device_info_t *device_info, GError **
     idevice_t phone = NULL;
     lockdownd_client_t client = NULL;
     gboolean res = FALSE;
-    
+
 
  /*   printf("%s: %s\n", __func__, uuid); */
 
@@ -465,7 +465,7 @@ gboolean device_get_info(const char *uuid, device_info_t *device_info, GError **
             }
         }
 	plist_free(node);
-    } 
+    }
 
     /* get layout information */
     node = NULL;
@@ -527,7 +527,7 @@ gboolean device_get_info(const char *uuid, device_info_t *device_info, GError **
      if (VERBOSE == TRUE){
       /*  device_dump_info((*device_info)); */
         printf("device-dump");
-    } 
+    }
 
   leave_cleanup:
     if (client) {

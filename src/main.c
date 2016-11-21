@@ -19,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  */
 
@@ -27,7 +27,8 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h> /* for GETTEXT_PACKAGE */
 #endif
-#include <sb.app.h>
+#include "sb.app.h"
+#include <gdk/gdk.h>
 
 GtkWidget *main_window;
 
@@ -36,7 +37,7 @@ void gui_error_dialog(const gchar *string)
     GtkWidget *dialog = gtk_message_dialog_new_with_markup (GTK_WINDOW(main_window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "<b>%s</b>", _("Error"));
     gtk_window_set_title(GTK_WINDOW(dialog), PACKAGE_NAME);
     gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "%s", string);
-    g_signal_connect_swapped (dialog, "response", G_CALLBACK(gtk_widget_destroy), dialog); 
+    g_signal_connect_swapped (dialog, "response", G_CALLBACK(gtk_widget_destroy), dialog);
     gtk_widget_show(dialog);
 }
 
@@ -56,6 +57,8 @@ int main(int argc, char **argv)
 	gboolean test = FALSE;
 	GError **error = NULL;
 
+gdk_set_allowed_backends("x11,wayland,*");
+
 /*	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE); */
@@ -63,7 +66,7 @@ int main(int argc, char **argv)
 
 	/* start up the application window with dbus activation */
 	/* FIXME START GTK-INSPECTOR - interactive debugger */
-	 gtk_window_set_interactive_debugging(TRUE); 
+	 gtk_window_set_interactive_debugging(TRUE);
 
 	application = sb_app_new();
 	test = g_application_register (G_APPLICATION (application), NULL, error);
@@ -73,7 +76,7 @@ int main(int argc, char **argv)
 	else if (test == FALSE) {
 		printf("g_application_register returned FALSE\n");
 	}
-	
+
 	g_application_hold (G_APPLICATION (application));
 
 	status = g_application_run (G_APPLICATION (application), argc, argv);

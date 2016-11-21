@@ -1,6 +1,6 @@
 /**
- * sbmgr.h
- * SBManager Widget definitions.
+ * sb.utility.h
+ * Debugging and helper function definitions.
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
  * Copyright (C) 2009-2010 Martin Szulecki <opensuse@sukimashita.com>
@@ -19,22 +19,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  */
 
-#ifndef SBMGR_H
-#define SBMGR_H
+#ifndef UTILITY_H
+#define UTILITY_H
+#include <glib.h>
 
-#include <gtk/gtk.h>
+/* debug */
+void set_debug(gboolean debug);
+void debug_printf(const char *format, ...);
 
-typedef void (*device_info_cb_t)(const char *device_name, const char *device_type);
-typedef void (*finished_cb_t)(gboolean success);
-
-GtkWidget *sbmgr_new();
-void sbmgr_load(const char *uuid, device_info_cb_t info_callback, finished_cb_t finished_callback);
-void sbmgr_save(const char *uuid);
-void sbmgr_cleanup();
-void sbmgr_finalize();
+/* helper */
+gboolean elapsed_ms(struct timeval *tv, guint ms);
 
 #endif

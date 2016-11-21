@@ -1,5 +1,5 @@
 /**
- * sb.app.c -- Sbmanager gappliction setup 
+ * sb.app.c -- Sbmanager gappliction setup
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
  * Copyright (C) 2009-2010 Martin Szulecki <opensuse@sukimashita.com>
@@ -19,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  */
 
@@ -27,7 +27,7 @@
 #include <config.h> /* for GETTEXT_PACKAGE */
 #endif
 #include "sb.app.h"
-#include "device.h"
+#include "sb.device.h"
 
 typedef struct {
 
@@ -37,7 +37,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (SbApp, sb_app, GTK_TYPE_APPLICATION);
 
 
 
-GtkWidget *main_window; 
+GtkWidget *main_window;
 GtkWidget *btn_reload;
 GtkWidget *btn_apply;
 GtkWidget *image;
@@ -47,18 +47,34 @@ gboolean VERBOSE = FALSE;
 char *match_uuid = NULL;
 char *current_uuid = NULL;
 
-/* FIXME -
- * static void
- *app_quit_cb (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
- * {
- *
- *   // cleanup 
- *   sbmgr_finalize();
- *   idevice_event_unsubscribe();
- *   debug_printf("quit-called\n");
- *	gtk_widget_destroy(main_window);
- * }
- */
+/**
+*static void
+*sbapp_quit_cb (GObject *object)
+*{
+*    //   app_quit_cb(NULL,NULL,NULL);
+*       SbApp *app = SB_APP (object);
+*       g_application_release( G_APPLICATION(app));
+*       //  quit the application
+*      g_application_quit (G_APPLICATION (app));
+*}
+*/
+
+/* FIXME  */
+/**static void
+* *app_quit_cb (void)
+* {
+*
+*    // cleanup
+*    printf("app-quit-test1\n");
+*    sbmgr_finalize();
+*    printf("app-quit-test2\n");
+*    idevice_event_unsubscribe();
+*    debug_printf("quit-called\n");
+*    sbapp_quit_cb ( NULL);
+*
+*    return 0;
+*}
+*/
 
 static void
 about_cb (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
@@ -168,7 +184,7 @@ sb_app_command_line (GApplication            *app,
         gboolean *option_verbose = FALSE;
          /*         VERBOSE = FALSE; */
  /*       static gchar *option_uuid[40]; */
-         
+
         debug_printf("In sb-app-command line\n");
         GVariantDict *Options;
 
@@ -182,7 +198,7 @@ sb_app_command_line (GApplication            *app,
         if (option_debug) {
            idevice_set_debug_level(1);
         } else if (option_debug_app) {
-           set_debug(TRUE);    
+           set_debug(TRUE);
         } else if (option_verbose) {
              VERBOSE = TRUE;
              printf(" Option not active");
@@ -210,34 +226,18 @@ sb_app_init (SbApp *app)
 }
 
 
-
-static void
-sbapp_quit_cb (GSimpleAction *action,
-         GVariant      *parameter,
-         gpointer       user_data)
-{
-       SbApp *app = SB_APP (user_data);
-       
-
-       /*  quit the application */
-      g_application_quit (G_APPLICATION (app));
-                                              
-       
-}
-
-
 SbApp *
 sb_app_start (GApplication *application)
 {
 
 	debug_printf( "in-sb-app-start\n");
-	
+
 	/* Create the clutter widget */
     GtkWidget *sbmgr_widget = sbmgr_new();
     if (!sbmgr_widget) {
         printf("Failed to create Clutter widget");
     }
-  
+
      main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	/* gtk_application_add_window (GTK_APPLICATION (application), GTK_WINDOW (main_window)); */
 
@@ -251,38 +251,38 @@ sb_app_start (GApplication *application)
     gtk_widget_show(vbox);
 
       /* create a toolbar */
-    GtkWidget *toolbar = gtk_toolbar_new(); 
-    gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0); 
+    GtkWidget *toolbar = gtk_toolbar_new();
+    gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0);
     buttonbox=gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
 	btn_reload = (GtkWidget*)gtk_tool_button_new(NULL , "Reload");
-	gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(btn_reload), _("Reload icons from device")); 
+	gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(btn_reload), _("Reload icons from device"));
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_reload), -1);
- 
+
 	btn_apply = (GtkWidget*)gtk_tool_button_new(NULL, "Upload");
-    gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(btn_apply), _("Upload changes to device"));  
+    gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(btn_apply), _("Upload changes to device"));
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_apply), -1);
- 
-	
+
+
 	GtkToolItem *btn_info = gtk_tool_button_new(NULL, "Info");
-    gtk_tool_item_set_tooltip_text(btn_info,_("Get info about this program")); 
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar),GTK_TOOL_ITEM(btn_info), -1); 
+    gtk_tool_item_set_tooltip_text(btn_info,_("Get info about this program"));
+    gtk_toolbar_insert(GTK_TOOLBAR(toolbar),GTK_TOOL_ITEM(btn_info), -1);
     GtkToolItem *spacer = gtk_tool_item_new();
     gtk_tool_item_set_expand(spacer, TRUE);
-    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), spacer, -1); 
+    gtk_toolbar_insert(GTK_TOOLBAR(toolbar), spacer, -1);
 
-    gtk_widget_set_sensitive(btn_reload, FALSE); 
-    gtk_widget_set_sensitive(btn_apply, FALSE); 
-    gtk_widget_show(toolbar); 
+    gtk_widget_set_sensitive(btn_reload, FALSE);
+    gtk_widget_set_sensitive(btn_apply, FALSE);
+    gtk_widget_show(toolbar);
 
      /* set up signal handlers */
     g_signal_connect(btn_reload, "clicked", G_CALLBACK(reload_button_clicked_cb), NULL);
-    g_signal_connect(btn_apply, "clicked", G_CALLBACK(apply_button_clicked_cb), NULL); 
+    g_signal_connect(btn_apply, "clicked", G_CALLBACK(apply_button_clicked_cb), NULL);
 	g_signal_connect(btn_info, "clicked", G_CALLBACK(about_cb), NULL);
 
 	/* insert sbmgr widget */
     gtk_box_pack_start(GTK_BOX(vbox), sbmgr_widget, TRUE, TRUE, 0);
     /* gtk_widget_show(sbmgr_widget); */
-    gtk_widget_grab_focus(sbmgr_widget); 
+    gtk_widget_grab_focus(sbmgr_widget);
 
 
    gtk_widget_show_all(GTK_WIDGET(main_window));
@@ -290,8 +290,9 @@ sb_app_start (GApplication *application)
     g_set_printerr_handler((GPrintFunc)gui_error_dialog);
 
     /* Stop the application when the window is closed */
-	g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_widget_destroyed), &main_window);
-  /*  g_signal_connect(main_window, "destroy", G_GALLBACK(app_quit_cb), NULL); */
+ /*     g_signal_connect(main_window, "destroy", G_CALLBACK(app_quit_cb( )), NULL); */
+	  g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_widget_destroyed), &main_window);
+
 
     /* get notified when plug in/out events occur */
     idevice_event_subscribe(device_event_cb, NULL);
@@ -330,7 +331,7 @@ void finished_cb(gboolean success)
     } else {
         printf("there was an error loading the icons\n");
     }
-} 
+}
 
      /* FIXME Reload should clear the pages on the Springboard or only reload the icons that have changed position */
 gboolean reload_button_clicked_cb(GtkButton *button, gpointer user_data)
@@ -350,7 +351,7 @@ gboolean apply_button_clicked_cb(GtkButton *button, gpointer user_data)
     gtk_widget_set_sensitive(btn_reload, TRUE);
     gtk_widget_set_sensitive(btn_apply, TRUE);
     return TRUE;
-} 
+}
 
 void device_event_cb(const idevice_event_t *event, void *user_data)
 {
@@ -383,11 +384,11 @@ void device_event_cb(const idevice_event_t *event, void *user_data)
 static void
 sb_app_dispose (GObject *object)
 {
-     /*   SbApp *app = SB_APP (object); */
+      /*    SbApp *app = SB_APP (object); */
 /*        SbAppPrivate *priv = sb_app_get_instance_private (app); */
-          sbapp_quit_cb(NULL,NULL,NULL);
+  /*        g_object_run_dispose(object);
 
-        G_OBJECT_CLASS (sb_app_parent_class)->dispose (object);
+        G_OBJECT_CLASS (sb_app_parent_class)->dispose (object); */
 }
 
 static void
@@ -402,12 +403,12 @@ sb_app_class_init (SbAppClass *klass)
         GObjectClass *object_class = G_OBJECT_CLASS (klass);
         GApplicationClass *application_class = G_APPLICATION_CLASS (klass);
 
-       application_class->startup = sb_app_startup;
+        application_class->startup = sb_app_startup;
         application_class->activate = sb_app_activate;
-       application_class->handle_local_options = sb_app_handle_local_options;
+        application_class->handle_local_options = sb_app_handle_local_options;
         application_class->command_line = sb_app_command_line;
 
-         object_class->dispose = sb_app_dispose;
-         object_class->finalize = sb_app_finalize;
+        object_class->dispose = sb_app_dispose;
+        object_class->finalize = sb_app_finalize;
 }
 

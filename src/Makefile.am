@@ -23,12 +23,12 @@ AM_LDFLAGS =			\
 bin_PROGRAMS = sbmanager
 
 noinst_LTLIBRARIES = libsbmanager.la
-libsbmanager_la_SOURCES = device.c device.h \
-			utility.c utility.h \
-			gui.c gui.h \
-			sbitem.c sbitem.h \
-			sbmgr.c sbmgr.h \
-            sb.app.c sb.app.h
+libsbmanager_la_SOURCES = sb.device.c sb.device.h \
+			sb.utility.c sb.utility.h \
+			sb.gui.c sb.gui.h \
+			sb.item.c sb.item.h \
+			sb.mgr.c sb.mgr.h \
+          	        sb.app.c sb.app.h
 libsbmanager_la_CFLAGS = $(AM_CFLAGS)
 libsbmanager_la_LIBADD = $(AM_LDFLAGS)
 

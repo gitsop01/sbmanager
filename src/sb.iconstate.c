@@ -1,5 +1,5 @@
 /**
- * iconstate.c
+ * sb.iconstate.c
  * Serialization of iconstate from/to GList's
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
@@ -33,11 +33,11 @@
 #include <plist/plist.h>
 #include <glib.h>
 
-#include "iconstate.h"
+#include "sb.iconstate.h"
 
 GList * iconstate_to_g_list(plist_t iconstate, GError **error)
 {
-    
+
 }
 
 plist_t g_list_to_iconstate(GList *iconstate, GError **error)

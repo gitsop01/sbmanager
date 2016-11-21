@@ -1,6 +1,6 @@
 /**
- * gui.h
- * GUI definitions.
+ * sb.item.h
+ * SpringBoard Item representation
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
  * Copyright (C) 2009-2010 Martin Szulecki <opensuse@sukimashita.com>
@@ -19,28 +19,38 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  */
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef SBITEM_H
+#define SBITEM_H
 
-#include <gtk/gtk.h>
+#include <glib.h>
+#include <clutter/clutter.h>
 #include <plist/plist.h>
-#include "sbmgr.h"
 
 typedef struct {
-    char *uuid;
-    device_info_t device_info;
-} SBManagerData;
+    plist_t node;
+    ClutterActor *texture;
+    ClutterActor *texture_shadow;
+    ClutterActor *label;
+    ClutterActor *label_shadow;
+    gboolean drawn;
+    gboolean is_dock_item;
+    gboolean is_folder;
+    gboolean enabled;
+    GList *subitems;
+} SBItem;
 
-GtkWidget *gui_init();
-void gui_deinit();
-void gui_pages_load(const char *uuid, device_info_cb_t info_callback, finished_cb_t finshed_callback);
-void gui_pages_free();
+char *sbitem_get_display_name(SBItem *item);
+char *sbitem_get_display_identifier(SBItem *item);
+char *sbitem_get_icon_filename(SBItem *item);
 
-plist_t gui_get_iconstate(const char *format_version);
+SBItem *sbitem_new(plist_t icon_info);
+SBItem *sbitem_new_with_subitems(plist_t icon_info, GList *subitems);
+void sbitem_free(SBItem *item);
 
+void g_func_sbitem_free(SBItem *item, gpointer data);
 
 #endif

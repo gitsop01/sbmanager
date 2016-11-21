@@ -1,5 +1,5 @@
 /**
- * gui.c
+ * sb.gui.c
  * GUI implementations.
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
@@ -20,7 +20,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  */
 
@@ -38,16 +38,16 @@
 
 #include <gtk/gtk.h>
 #include <clutter/clutter.h>
-#include <clutter-gtk/clutter-gtk.h> 
+#include <clutter-gtk/clutter-gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include "sbmgr.h"
-#include "utility.h"
-#include "device.h"
-#include "sbitem.h"
-#include "gui.h"
+#include "sb.mgr.h"
+#include "sb.utility.h"
+#include "sb.device.h"
+#include "sb.item.h"
+#include "sb.gui.h"
 
-#define MIN(a, b) (((a) < (b)) ? (a) : (b)) 
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
 #define STAGE_WIDTH 320
@@ -151,7 +151,7 @@ static void sbpage_free(GList *sbitems, gpointer data)
     /*  FIXME Clutter-CRITICAL **: clutter_actor_remove_all_children: assertion `CLUTTER_IS_ACTOR (self)' failed */
 
 		/* clutter_actor_remove_all_children(CLUTTER_ACTOR(page_indicator_group)); */
-       
+
 	}
 }
 
@@ -201,7 +201,7 @@ static GList *iconlist_insert_item_at(GList *iconlist, SBItem *newitem, gfloat i
         return iconlist;
     }
     debug_printf("%s: count items %i\n", __func__, g_list_length(iconlist));
-    
+
     if (!iconlist) {
         debug_printf("%s: appending item\n", __func__);
         /* for empty lists just add the element */
@@ -335,8 +335,8 @@ static void clock_update_cb(ClutterTimeline *timeline, gint msecs, gpointer data
 }
 
 /* gui */
-static void gui_fade_init() 
-{ 
+static void gui_fade_init()
+{
      ClutterColor fade_color = { 0x00, 0x00, 0x00, 0xff }; /* BLACK */
      fade_rectangle = clutter_actor_new();
      clutter_actor_set_background_color(fade_rectangle, &fade_color);
@@ -344,19 +344,19 @@ static void gui_fade_init()
      clutter_actor_set_position(fade_rectangle, 0, 0);
      clutter_actor_set_size(fade_rectangle, stage_area.x2, stage_area.y2);
      clutter_actor_set_opacity(fade_rectangle, 0);
-} 
+}
 
 static void gui_fade_stop()
 {
-	
+
     clutter_actor_set_child_above_sibling(stage, fade_rectangle, ((void *)0) );
     clutter_actor_set_easing_mode (CLUTTER_ACTOR(fade_rectangle), CLUTTER_EASE_OUT_QUAD);
     clutter_actor_set_easing_duration (CLUTTER_ACTOR(fade_rectangle), 500);
     clutter_actor_set_opacity (CLUTTER_ACTOR(fade_rectangle), 0);
     clutter_actor_set_reactive(fade_rectangle, FALSE);
-} 
+}
 
-static void gui_fade_start() 
+static void gui_fade_start()
 {
 
    clutter_actor_set_reactive(fade_rectangle, TRUE);
@@ -365,14 +365,14 @@ static void gui_fade_start()
    clutter_actor_set_easing_duration (CLUTTER_ACTOR(fade_rectangle), 500);
    clutter_actor_set_opacity (CLUTTER_ACTOR(fade_rectangle), 180);
 
-} 
+}
 
 static gboolean spinner_spin_cb(gpointer data)
 {
     int i;
     for (i = 0; i < 12; i++) {
 	   ClutterActor *actor = clutter_actor_get_child_at_index(CLUTTER_ACTOR(spinner), i);
-       clutter_actor_set_opacity(actor, clutter_actor_get_opacity(actor)-30); 
+       clutter_actor_set_opacity(actor, clutter_actor_get_opacity(actor)-30);
     }
     return TRUE;
 }
@@ -406,7 +406,7 @@ static void gui_spinner_init()
 static void gui_spinner_start()
 {
     clutter_actor_show(spinner);
-    clutter_actor_set_child_above_sibling(stage, spinner, ((void*)0) ); 
+    clutter_actor_set_child_above_sibling(stage, spinner, ((void*)0) );
     clutter_timeline_start(spinner_timeline);
 }
 
@@ -586,7 +586,7 @@ static void gui_page_indicator_group_remove(GList *page, int page_index)
 {
     debug_printf("%s: removing page indicator for page %d\n", __func__, page_index);
     if (page_indicator) {
-		ClutterActor *actor = clutter_actor_get_child_at_index(CLUTTER_ACTOR(page_indicator_group), page_index);		
+		ClutterActor *actor = clutter_actor_get_child_at_index(CLUTTER_ACTOR(page_indicator_group), page_index);
 
         /* afaik, this also removes it from the stage */
         clutter_actor_destroy(actor);
@@ -771,7 +771,7 @@ static gboolean stage_motion_cb(ClutterActor *actor, ClutterMotionEvent *event, 
     /* check if an item has been raised */
     if (!selected_item) {
         return FALSE;
-    } 
+    }
      /**
       * The parent will be either the sb-area or dock-area for all icons, folders etc so the reference to the parent
       * seems to be used to see if the icon is being moved between sb-area actor and dock-area actor parent
@@ -782,13 +782,13 @@ static gboolean stage_motion_cb(ClutterActor *actor, ClutterMotionEvent *event, 
 	if(icon == NULL){
         fprintf(stderr,"\n%s: ERROR clutter-actor-get-parent(selected_item->texture): failure - return = NULL", __func__);
     }
-	    
+
 
     /* This seems wrong as at the time of clicking an actor both event-x and start-x are within the same actor position */
     clutter_actor_move_by(icon, (event->x - start_x), (event->y - start_y));
     /* fprintf(stderr,"%s: below1 clutter-actor-move-by\n", __func__); */
     /* fprintf(stderr,"%s: event->x = %f startx= %f event->y = %f start-y = %f\n", __func__, event->x,start_x,event->y,start_y); */
- 
+
     if (event->x-start_x > 0) {
         move_left = FALSE;
     } else {
@@ -859,7 +859,7 @@ static gboolean stage_motion_cb(ClutterActor *actor, ClutterMotionEvent *event, 
             debug_printf("%s: regular icon is moving!\n", __func__);
             pageitems =
                 iconlist_insert_item_at(pageitems, selected_item, (center_x - sb_area.x1) + PAGE_X_OFFSET(p), (center_y - sb_area.y1), p, 4);
- 
+
         }
         /* insert back current page */
         sbpages = g_list_insert(sbpages, pageitems, p);
@@ -1218,16 +1218,16 @@ static void folderview_open(SBItem *item)
     }
 
     /* upper */
-	aniupper = clutter_actor_new();
-	clutter_actor_add_child(CLUTTER_ACTOR(stage), aniupper);
-	ClutterContent *act1 = clutter_image_new();
+    aniupper = clutter_actor_new();
+    clutter_actor_add_child(CLUTTER_ACTOR(stage), aniupper);
+    ClutterContent *act1 = clutter_image_new();
     gboolean yess = clutter_image_set_data(CLUTTER_IMAGE(act1),
                                          shot,
                                          COGL_PIXEL_FORMAT_RGBA_8888,
                                          stage_area.x2,
                                          ypos,
                                          stage_area.x2*4,
-                                         NULL);	
+                                         NULL);
 
     if(yess == FALSE){
         fprintf(stderr, "\n%s: Failed to load stage image(aniupper)\n", __func__);
@@ -1238,19 +1238,16 @@ static void folderview_open(SBItem *item)
     /* THIS MAY NEED SIZE OF ACTOR SET TO WORK CORRECTLY TW 24/05/13 DONE 26/05/13 */
     clutter_actor_set_size(aniupper, width1, height1);
     clutter_actor_set_content(CLUTTER_ACTOR(aniupper), act1);
-    
-    
     clutter_actor_set_position(aniupper, 0, 0);
     clutter_actor_set_reactive(aniupper, TRUE);
     clutter_actor_show(aniupper);
-
-     clutter_actor_set_child_above_sibling(stage, aniupper, ((void *)0) );
+    clutter_actor_set_child_above_sibling(stage, aniupper, ((void *)0) );
 
     /* lower */
-	anilower = clutter_actor_new();
-	clutter_actor_add_child(CLUTTER_ACTOR(stage), anilower);
-	ClutterContent *act2 = clutter_image_new();	/* ClutterContent TW 24/04/13 */
-	gboolean yes =  clutter_image_set_data(CLUTTER_IMAGE(act2),
+    anilower = clutter_actor_new();
+    clutter_actor_add_child(CLUTTER_ACTOR(stage), anilower);
+    ClutterContent *act2 = clutter_image_new();	/* ClutterContent TW 24/04/13 */
+    gboolean yes =  clutter_image_set_data(CLUTTER_IMAGE(act2),
                                          shot,
                                          COGL_PIXEL_FORMAT_RGBA_8888,
                                          stage_area.x2,
@@ -1260,38 +1257,38 @@ static void folderview_open(SBItem *item)
     if(yes == FALSE){
         fprintf(stderr, "\n%s: Failed to load stage image(anilower)\n", __func__);
     }
- 
-    
+
+
     gfloat width2;
     gfloat height2;
-   
+
     clutter_content_get_preferred_size(act2, &width2, &height2);
     /* THIS MAY NEED SIZE OF ACTOR SET TO WORK CORRECTLY TW 24/05/13 */
     clutter_actor_set_size(anilower, width2, height2);
     clutter_actor_set_clip(anilower, 0.0, ypos, (gfloat)(stage_area.x2), (gfloat)(stage_area.y2)-ypos);
-	clutter_actor_set_content(CLUTTER_ACTOR(anilower), act2);
+    clutter_actor_set_content(CLUTTER_ACTOR(anilower), act2);
     clutter_actor_set_position(anilower, 0, 0);
     clutter_actor_set_reactive(anilower, TRUE);
     clutter_actor_show(anilower);
-	clutter_actor_set_child_above_sibling(stage, anilower, ((void *)0 ) );
+    clutter_actor_set_child_above_sibling(stage, anilower, ((void *)0 ) );
 
     /* add a clone of the original folder icon */
     ClutterActor *act3 = clutter_clone_new(fldr);
     if (is_dock_folder) {
 
-		clutter_actor_add_child(CLUTTER_ACTOR(anilower), act3);
+        clutter_actor_add_child(CLUTTER_ACTOR(anilower), act3);
         clutter_actor_set_position(act3, xpos, ypos+20.0);
     } else {
 
-		clutter_actor_add_child(CLUTTER_ACTOR(aniupper), act3);
+        clutter_actor_add_child(CLUTTER_ACTOR(aniupper), act3);
         clutter_actor_set_position(act3, xpos, ypos-80.0);
     }
 
     /* create folder container */
 
-	folder = clutter_actor_new();
-	clutter_actor_add_child(CLUTTER_ACTOR(stage), folder);
-	clutter_actor_set_child_at_index(stage, folder, 0  );
+    folder = clutter_actor_new();
+    clutter_actor_add_child(CLUTTER_ACTOR(stage), folder);
+    clutter_actor_set_child_at_index(stage, folder, 0  );
     clutter_actor_set_position(folder, 0, ypos);
     clutter_actor_show(folder);
 
@@ -1302,11 +1299,11 @@ static void folderview_open(SBItem *item)
     clutter_actor_set_size(act11, stage_area.x2, 1);
     clutter_actor_set_position(act11, 0, 0);
     clutter_actor_set_reactive(act11, TRUE);
-	clutter_actor_add_child(CLUTTER_ACTOR(folder), act11);
+    clutter_actor_add_child(CLUTTER_ACTOR(folder), act11);
     clutter_actor_show(act11);
 
     /* create folder name label */
-     ClutterColor rcolor = {255, 255, 255, 255};
+    ClutterColor rcolor = {255, 255, 255, 255};
     ClutterActor *trect = clutter_actor_new();
 
     clutter_actor_set_background_color(trect, &rcolor);
@@ -1317,7 +1314,7 @@ static void folderview_open(SBItem *item)
     const gchar *ltext = clutter_text_get_text(CLUTTER_TEXT(item->label));
     ClutterColor lcolor = {0, 0, 0, 255};
     ClutterActor *lbl = clutter_text_new_full(FOLDER_LARGE_FONT, ltext, &lcolor);
-	clutter_actor_add_child(CLUTTER_ACTOR(folder), lbl);
+    clutter_actor_add_child(CLUTTER_ACTOR(folder), lbl);
     clutter_actor_set_position(lbl, 16.0, 8.0);
     clutter_actor_set_width(lbl, (gfloat)(stage_area.x2)-32.0);
 	/* clutter_actor_set_child_above_sibling(folder, lbl, trect ); */
@@ -1343,7 +1340,7 @@ static void folderview_open(SBItem *item)
 
     /* folder marker */
     ClutterActor *marker = clutter_clone_new(folder_marker);
-	
+
 
     /**
      *  NOTE cloned actors have no parent or children untill added to another actor
@@ -1368,7 +1365,7 @@ static void folderview_open(SBItem *item)
         /* FIXME Not sure if reparent is required here unless and icon is removed */
         /* NOTE g_object_ref(  To reparent remove child then add child need to be done */
         g_object_ref(si->texture);
-       
+
         /* NOTE when this reparent is done the folder disappears when clicked again after closing 27/05/13 */
         clutter_actor_remove_child(a, CLUTTER_ACTOR(si->texture) );
 	    clutter_actor_add_child(folder, CLUTTER_ACTOR(si->texture) );
@@ -1388,14 +1385,14 @@ static void folderview_open(SBItem *item)
             move_up_by = (ypos + fh) - (stage_area.y2 - DOCK_HEIGHT/2);
 	}
     }
-	
+
 	clutter_actor_set_child_above_sibling(stage, folder, ((void *)0) );
 	clutter_actor_set_child_above_sibling(stage, anilower, ((void *)0) );
 
     /* now animate the actors */
-	
 
-	
+
+
 	/**
      * FIXME TW 11/05/13 THIS NEEDS TO BE FIXED FIND OUT WHAT "ACT" WAS AND ALTER CODE TO FIX
 	 * clutter_actor_set_easing_mode (act, CLUTTER_EASE_IN_OUT_QUAD);act flagged by compiler TW 26/04/13
@@ -1477,24 +1474,22 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
         }
 
         if (item->is_dock_item) {
-    
-
            clutter_text_set_color(CLUTTER_TEXT(item->label), &item_text_color);
-           clutter_actor_set_y(item->label, clutter_actor_get_y(item->texture) + device_info->home_screen_icon_height); 
+           clutter_actor_set_y(item->label, clutter_actor_get_y(item->texture) + device_info->home_screen_icon_height);
             if (item->label_shadow) {
-                clutter_actor_set_y(item->label_shadow, clutter_actor_get_y(item->texture) + device_info->home_screen_icon_height + 1.0); 
-            } 
+                clutter_actor_set_y(item->label_shadow, clutter_actor_get_y(item->texture) + device_info->home_screen_icon_height + 1.0);
+            }
           /* diffx = dock_area.x1;
             diffy = dock_area.y1; */
-        } else {
-         /*  diffx = sb_area.x1 - PAGE_X_OFFSET(current_page);
-            diffy = sb_area.y1; */
-        }
+           } else {
+                 /*  diffx = sb_area.x1 - PAGE_X_OFFSET(current_page);
+                 diffy = sb_area.y1; */
+           }
 
 
 
         /* NOTE TW 10/05/13 sc could be sb_area or dock_area or stage */
-		
+
         /**
          * As all actors (icons) are added to either sb-area or dock_area reparenting may not be required
          * Reparenting the actor results in the actor going back to 0.0 on the sb_area or 0.0 on the dock area - because it is removed from
@@ -1505,24 +1500,24 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
 
 
         /* FIXME- ensure a reference is added before removing child actor - Clutter reference manual */
-		
+
          /*  clutter_actor_add_action( actor, clutter_drag_action_new());  ADDED FOR TEST TW 06/06/13 */
          /*  clutter_actor_set_reactive(actor, TRUE); */
          /*  clutter_actor_add_contraint */
 
-          g_object_ref(actor); 
-          clutter_actor_remove_child(sc, actor);  /* TEST TW 12/05/13 */
+        g_object_ref(actor);
+        clutter_actor_remove_child(sc, actor);  /* TEST TW 12/05/13 */
 
         /* FIXME -ensure sc parent is the stage and alter code below to suit */
         clutter_actor_add_child(stage, actor);  /* removed for test tw 06/06/13 */
         clutter_actor_set_reactive(actor, TRUE);
         clutter_actor_add_action(actor, clutter_drag_action_new());
-        
+
 		/* clutter_actor_set_position(sc, clutter_actor_get_x(sc) + diffx, clutter_actor_get_y(sc) + diffy);  REMOVED FOR TEST TW 26/05/13 */
 
 	    /* clutter_actor_insert_child_above(stage, sc, ((void *)0) ); */
 
-		/* clutter_actor_set_scale_full' is deprecated TW 21/04/13		
+		/* clutter_actor_set_scale_full' is deprecated TW 21/04/13
 
         clutter_actor_set_scale_full(sc, 1.2, 1.2,
                                      clutter_actor_get_x(actor) +
@@ -1535,8 +1530,6 @@ static gboolean item_button_press_cb(ClutterActor *actor, ClutterButtonEvent *ev
                                      clutter_actor_get_width(actor) / 2,
                                      clutter_actor_get_y(actor) + clutter_actor_get_height(actor) / 2); */
 		clutter_actor_set_scale(actor, 1.2, 1.2);
-
-
         clutter_actor_set_opacity(actor, 160);
         selected_item = item;
         start_x = event->x;
@@ -1591,8 +1584,8 @@ static gboolean item_button_release_cb(ClutterActor *actor, ClutterButtonEvent *
     debug_printf("%s: %s mouse released\n", __func__, strval);
 
     if (actor) {
-		
-         ClutterActor *sc = clutter_actor_get_parent(actor); 
+
+         ClutterActor *sc = clutter_actor_get_parent(actor);
 
         /* FIXME - THIS MAY NOT BE NEEDED */
         /* clutter_actor_set_pivot_point(actor, clutter_actor_get_x(actor) +
@@ -1602,47 +1595,45 @@ static gboolean item_button_release_cb(ClutterActor *actor, ClutterButtonEvent *
 
         clutter_actor_set_opacity(actor, 255);
         if (item->is_dock_item) {
-        
-            clutter_text_set_color(CLUTTER_TEXT(item->label), &dock_item_text_color); 
-            clutter_actor_set_y(item->label, clutter_actor_get_y(item->texture) + device_info->home_screen_icon_height); 
-            if (item->label_shadow) { 
-                clutter_actor_set_y(item->label_shadow, clutter_actor_get_y(item->texture) + device_info->home_screen_icon_height + 1.0); 
+
+            clutter_text_set_color(CLUTTER_TEXT(item->label), &dock_item_text_color);
+            clutter_actor_set_y(item->label, clutter_actor_get_y(item->texture) + device_info->home_screen_icon_height);
+            if (item->label_shadow) {
+                clutter_actor_set_y(item->label_shadow, clutter_actor_get_y(item->texture) + device_info->home_screen_icon_height + 1.0);
             }
 
-			fprintf(stderr, "\n%s: above1 - clutter-actor-remove-child: the-dock, sc\n",__func__);
-            
-            g_object_ref(actor);
-		    clutter_actor_remove_child(sc, actor);
-			fprintf(stderr, "%s: below1 - clutter-actor-remove-child: the-dock, sc\n",__func__);
-            clutter_actor_add_child(the_dock, actor);
+			    fprintf(stderr, "\n%s: above1 - clutter-actor-remove-child: the-dock, sc\n",__func__);
 
-            /* Added for test TW 27/05/13 */
-            clutter_actor_set_position(actor, clutter_actor_get_x(actor) - dock_area.x1, clutter_actor_get_y(actor) - dock_area.y1);  
-            /* clutter_actor_set_position(sc, clutter_actor_get_x(sc) - dock_area.x1, clutter_actor_get_y(sc) - dock_area.y1); */
-        } else {
-            
-            /* FIXME This reparent removes all actors from the springboard when mouse clicked again removed for test TW 29/05/13 */
+                g_object_ref(actor);
+		        clutter_actor_remove_child(sc, actor);
+			    fprintf(stderr, "%s: below1 - clutter-actor-remove-child: the-dock, sc\n",__func__);
+                clutter_actor_add_child(the_dock, actor);
 
-             g_object_ref(actor); 
-             clutter_actor_remove_child(sc, actor);  /* REMOVED FOR TEST TW 28/05/13 */
-			 clutter_actor_add_child(the_sb, actor);
+                /* Added for test TW 27/05/13 */
+                clutter_actor_set_position(actor, clutter_actor_get_x(actor) - dock_area.x1, clutter_actor_get_y(actor) - dock_area.y1);
+                /* clutter_actor_set_position(sc, clutter_actor_get_x(sc) - dock_area.x1, clutter_actor_get_y(sc) - dock_area.y1); */
+            } else {
 
-            /* clutter_actor_set_position(sc,
+                /* FIXME This reparent removes all actors from the springboard when mouse clicked again removed for test TW 29/05/13 */
+
+                 g_object_ref(actor);
+                clutter_actor_remove_child(sc, actor);  /* REMOVED FOR TEST TW 28/05/13 */
+			    clutter_actor_add_child(the_sb, actor);
+
+                /* clutter_actor_set_position(sc,
                                        clutter_actor_get_x(sc) +
                                        PAGE_X_OFFSET(current_page) - sb_area.x1, clutter_actor_get_y(sc) - sb_area.y1); */
-            
-           /* fprintf(stderr, "\n%s position x =%f: position y = %f:\n",__func__ , clutter_actor_get_x(sc) +
-                                       PAGE_X_OFFSET(current_page) - sb_area.x1, clutter_actor_get_y(sc) - sb_area.y1); */
-               
-            clutter_actor_add_action(actor, clutter_drop_action_new()); /* ADDED FOR TEST TW 18/06/13 */
-            
-          
-             clutter_actor_set_position(actor,
-                                       clutter_actor_get_x(actor) +
-                                       PAGE_X_OFFSET(current_page) - sb_area.x1, clutter_actor_get_y(actor) - sb_area.y1); 
-            
 
-        }
+                /* fprintf(stderr, "\n%s position x =%f: position y = %f:\n",__func__ , clutter_actor_get_x(sc) +
+                                       PAGE_X_OFFSET(current_page) - sb_area.x1, clutter_actor_get_y(sc) - sb_area.y1); */
+
+                clutter_actor_add_action(actor, clutter_drop_action_new()); /* ADDED FOR TEST TW 18/06/13 */
+
+
+                clutter_actor_set_position(actor,
+                                       clutter_actor_get_x(actor) +
+                                       PAGE_X_OFFSET(current_page) - sb_area.x1, clutter_actor_get_y(actor) - sb_area.y1);
+            }
     }
 
     selected_item = NULL;
@@ -1655,6 +1646,7 @@ static gboolean item_button_release_cb(ClutterActor *actor, ClutterButtonEvent *
     return TRUE;
 }
 
+
     /* FIXME Allow switching pages using left and right arrow keys - but does not work at present */
 	/* may need key code not symbol to work */
 static gboolean stage_key_press_cb(ClutterActor *actor, ClutterEvent *event, gpointer user_data)
@@ -1662,7 +1654,7 @@ static gboolean stage_key_press_cb(ClutterActor *actor, ClutterEvent *event, gpo
     if (!user_data || (event->type != CLUTTER_KEY_PRESS)) {
         return FALSE;
     }
-	
+
     guint symbol = clutter_event_get_key_symbol(event);
     switch(symbol) {
         case CLUTTER_KEY_Right: /* altered for clutter-gst 1.6.6 */
@@ -1714,22 +1706,22 @@ static gboolean subitem_button_press_cb(ClutterActor *actor, ClutterButtonEvent 
 		ClutterActor *sc = clutter_actor_get_parent(actor);
 		/* diffy = split_pos + clutter_actor_get_y(aniupper); */
 
-    /**
-     * FIXME Check that sc parent is the stage and alter code below as required
-     * aquire reference before removing actor
-     * g_object_ref(actor);
-     * clutter_actor_remove_child(sc, actor);
-     * clutter_actor_set_position(sc, clutter_actor_get_x(sc) + diffx, clutter_actor_get_y(sc) + diffy);
-     * clutter_actor_insert_child_above(stage, actor, ((void *)0));
-     **/
-     clutter_actor_set_pivot_point(sc, clutter_actor_get_x(actor) +
+        /**
+         * FIXME Check that sc parent is the stage and alter code below as required
+         * aquire reference before removing actor
+         * g_object_ref(actor);
+         * clutter_actor_remove_child(sc, actor);
+         * clutter_actor_set_position(sc, clutter_actor_get_x(sc) + diffx, clutter_actor_get_y(sc) + diffy);
+         * clutter_actor_insert_child_above(stage, actor, ((void *)0));
+         **/
+         clutter_actor_set_pivot_point(sc, clutter_actor_get_x(actor) +
                                      clutter_actor_get_width(actor) / 2,
                                      clutter_actor_get_y(actor) + clutter_actor_get_height(actor) / 2);
-		clutter_actor_set_scale(sc, 1.2, 1.2);
-        clutter_actor_set_opacity(sc, 160);
-        selected_item = item;
-        start_x = event->x;
-        start_y = event->y;
+         clutter_actor_set_scale(sc, 1.2, 1.2);
+         clutter_actor_set_opacity(sc, 160);
+         selected_item = item;
+         start_x = event->x;
+         start_y = event->y;
     }
 
     return TRUE;
@@ -1741,7 +1733,6 @@ static gboolean subitem_button_press_cb(ClutterActor *actor, ClutterButtonEvent 
     * removes actor from original parent and adds to folder, sets position de-selects the item then calls
     * gui-folder-align-icons. If selected folder calls gui-folder-redraw-subitems on selected folder
     **/
-
 static gboolean subitem_button_release_cb(ClutterActor *actor, ClutterButtonEvent *event, gpointer user_data)
 {
     if (!user_data) {
@@ -1776,11 +1767,11 @@ static gboolean subitem_button_release_cb(ClutterActor *actor, ClutterButtonEven
         /* FIXME Clutter-CRITICAL **: clutter_actor_add_child: assertion `CLUTTER_IS_ACTOR (self)' failed */
 
         /* clutter_actor_add_child(folder, actor); */
-                
+
         clutter_actor_set_position(sc,
                                        clutter_actor_get_x(sc), clutter_actor_get_y(sc) - (split_pos + clutter_actor_get_y(aniupper)));
 
-        
+
 
     }
 
@@ -1805,8 +1796,6 @@ static gboolean subitem_button_release_cb(ClutterActor *actor, ClutterButtonEven
      * then adds sgrp to grp actor. Clones subitem original actor as suba actor, scales the new actor adds to minigrp
      * sets its position if lass than 9 subitems shows the actor, otherwise hides the actor
      **/
-
-
 static void gui_folder_draw_subitems(SBItem *item)
 {
     ClutterActor *grp = clutter_actor_get_parent(item->texture);
@@ -1834,18 +1823,18 @@ static void gui_folder_draw_subitems(SBItem *item)
             // label shadow
             actor = subitem->label_shadow;
             if (actor) {
-				
+
 				clutter_actor_add_child(CLUTTER_ACTOR(sgrp), actor);
                 clutter_actor_set_position(actor, (device_info->home_screen_icon_width - clutter_actor_get_width(actor)) / 2 + 1.0, device_info->home_screen_icon_height + 1.0);
                 clutter_actor_show(actor);
             }
 
             actor = subitem->texture;
-			
+
 			/* Clutter-CRITICAL **: clutter_actor_add_child: assertion `child->priv->parent == NULL' failed
 			 * Runtime error TW 10/05/13
              */
-			
+
 			clutter_actor_add_child(CLUTTER_ACTOR(sgrp), actor);
 			clutter_actor_set_position(actor, 0.0, 0.0);
             clutter_actor_set_reactive(actor, TRUE);
@@ -1865,7 +1854,7 @@ static void gui_folder_draw_subitems(SBItem *item)
 
             clutter_actor_hide(sgrp);
             ClutterActor *suba = clutter_clone_new(subitem->texture);
-            
+
 			if(suba == NULL) {
 				fprintf(stderr, "\n%s: suba = clutter_clone_new = NULL\n", __func__); /* TEST TW 28/04/13 */
 			}
@@ -1903,18 +1892,18 @@ static void gui_show_icons()
             SBItem *item = (SBItem*)g_list_nth_data(dockitems, i);
             if (item && item->texture && !item->drawn && item->node) {
                 item->is_dock_item = TRUE;
-				ClutterActor *grp = clutter_actor_new();
+                ClutterActor *grp = clutter_actor_new();
                 ClutterActor *actor;
                 // icon shadow
                 actor = item->texture_shadow;
                 if (actor) {
-					clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
-					clutter_actor_set_position(actor, xpos-12, ypos-12);
+                    clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
+                    clutter_actor_set_position(actor, xpos-12, ypos-12);
                 }
                 // label shadow
                 actor = item->label_shadow;
                 if (actor) {
-					clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
+                    clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
                     clutter_actor_set_position(actor, xpos + (device_info->home_screen_icon_width - clutter_actor_get_width(actor)) / 2 + 1.0, ypos + device_info->home_screen_icon_height + 1.0);
                 }
                 actor = item->texture;
@@ -1924,9 +1913,9 @@ static void gui_show_icons()
                /* Clutter-CRITICAL **: clutter_actor_add_child: assertion `child->priv->parent == NULL' failed
                 * Runtime warning 09/05/13
                 */
-				
-				clutter_actor_add_child(CLUTTER_ACTOR(grp), actor); 
-				clutter_actor_set_position(actor, xpos, ypos);
+
+                clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
+                clutter_actor_set_position(actor, xpos, ypos);
                 clutter_actor_set_reactive(actor, TRUE);
                 g_signal_connect(actor, "button-press-event", G_CALLBACK(item_button_press_cb), item);
                 g_signal_connect(actor, "button-release-event", G_CALLBACK(item_button_release_cb), item);
@@ -1934,8 +1923,8 @@ static void gui_show_icons()
                 actor = item->label;
                 clutter_actor_set_position(actor, xpos + (device_info->home_screen_icon_width - clutter_actor_get_width(actor)) / 2, ypos + device_info->home_screen_icon_height);
                 clutter_text_set_color(CLUTTER_TEXT(actor), &dock_item_text_color);
-				clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
-				clutter_actor_add_child(CLUTTER_ACTOR(the_dock), grp);
+                clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
+                clutter_actor_add_child(CLUTTER_ACTOR(the_dock), grp);
 				item->drawn = TRUE;
             }
             /* process subitems */
@@ -1965,18 +1954,18 @@ static void gui_show_icons()
                     actor = item->texture_shadow;
                     if (actor) {
 
-						/*  Clutter-CRITICAL **: clutter_actor_add_child: assertion `child->priv->parent == NULL' failed
-						 * Runtime error TW 10/0/13
+                        /*  Clutter-CRITICAL **: clutter_actor_add_child: assertion `child->priv->parent == NULL' failed
+                         * Runtime error TW 10/0/13
                          */
-						
-						clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
-						clutter_actor_set_position(actor, xpos-12.0, ypos-12.0);
+
+                        clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
+                        clutter_actor_set_position(actor, xpos-12.0, ypos-12.0);
                     }
 
                     // label shadow
                     actor = item->label_shadow;
                     if (actor) {
-						clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
+                        clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
                         clutter_actor_set_position(actor, xpos + (device_info->home_screen_icon_width - clutter_actor_get_width(actor)) / 2 + 1.0, ypos + device_info->home_screen_icon_height + 1.0);
                     }
                     actor = item->texture;
@@ -1985,8 +1974,8 @@ static void gui_show_icons()
 					 * Runlime error TW 10/05/13
                      */
 
-					clutter_actor_add_child(CLUTTER_ACTOR(grp), actor); 
-					clutter_actor_set_position(actor, xpos, ypos);
+                    clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
+                    clutter_actor_set_position(actor, xpos, ypos);
                     clutter_actor_set_reactive(actor, TRUE);
                     g_signal_connect(actor, "button-press-event", G_CALLBACK(item_button_press_cb), item);
                     g_signal_connect(actor, "button-release-event", G_CALLBACK(item_button_release_cb), item);
@@ -1994,10 +1983,10 @@ static void gui_show_icons()
                     actor = item->label;
                     clutter_text_set_color(CLUTTER_TEXT(actor), &item_text_color);
                     clutter_actor_set_position(actor, xpos + (device_info->home_screen_icon_width - clutter_actor_get_width(actor)) / 2, ypos + device_info->home_screen_icon_height);
-					clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
-					clutter_actor_add_child(CLUTTER_ACTOR(the_sb), grp);
+                    clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
+                    clutter_actor_add_child(CLUTTER_ACTOR(the_sb), grp);
 
-		    item->drawn = TRUE;
+                    item->drawn = TRUE;
                 }
                 /* process subitems */
                 if (item->texture && item->is_folder && item->subitems) {
@@ -2010,9 +1999,9 @@ static void gui_show_icons()
     clutter_stage_ensure_redraw(CLUTTER_STAGE(stage));
 }
 			/* Altered the arguments from ClutterTexture *texture, to ClutterActor *texture TEST TW 07/05/13 */
-static void sbitem_texture_load_finished(ClutterActor *texture, gpointer error, gpointer data) 
-{ 
-    SBItem *item = (SBItem *)data; 
+static void sbitem_texture_load_finished(ClutterActor *texture, gpointer error, gpointer data)
+{
+    SBItem *item = (SBItem *)data;
 
      /**
       * This adds another smaller icon below the larger icon on sb_area and dock_area
@@ -2023,23 +2012,23 @@ static void sbitem_texture_load_finished(ClutterActor *texture, gpointer error, 
       **/
 
 
-     /** 
+     /**
       * Clutter-CRITICAL **: clutter_actor_show: assertion `CLUTTER_IS_ACTOR (self)' failed
       * Runtime error TW 10/05/13
       **/
 
      clutter_actor_show(item->label);
 
-	   if (item->label_shadow) {
-       clutter_actor_show(item->label_shadow); 
-	  } 
-} 
+	 if (item->label_shadow) {
+        clutter_actor_show(item->label_shadow);
+	 }
+}
 
 static gboolean sbitem_texture_new(gpointer data)
 {
 	ClutterContent *image;
 	GdkPixbuf *pixbuf;
-	
+
     SBItem *item = (SBItem *)data;
     char *icon_filename;
     if (item->is_folder) {
@@ -2049,10 +2038,10 @@ static gboolean sbitem_texture_new(gpointer data)
     }
     GError *err = NULL;
 
-    ClutterActor *actor = clutter_actor_new(); 
-	pixbuf = gdk_pixbuf_new_from_file(icon_filename, &err); 
-	image = clutter_image_new (); 
-	  
+    ClutterActor *actor = clutter_actor_new();
+	pixbuf = gdk_pixbuf_new_from_file(icon_filename, &err);
+	image = clutter_image_new ();
+
 	clutter_image_set_data (CLUTTER_IMAGE (image),
                           gdk_pixbuf_get_pixels (pixbuf),
                           gdk_pixbuf_get_has_alpha (pixbuf)
@@ -2061,11 +2050,11 @@ static gboolean sbitem_texture_new(gpointer data)
                           gdk_pixbuf_get_width (pixbuf),
                           gdk_pixbuf_get_height (pixbuf),
                           gdk_pixbuf_get_rowstride (pixbuf),
-                          NULL); 
-	 g_object_unref (pixbuf); 
-	
+                          NULL);
+	 g_object_unref (pixbuf);
+
 	 clutter_actor_set_content (actor, image);
-	 
+
     /**
      * This does load all icon's on to wallpaper on top of each other
      * clutter_actor_add_child(stage, actor);
@@ -2074,31 +2063,30 @@ static gboolean sbitem_texture_new(gpointer data)
      * FIXME This does not work as the signal "completed"is deprecated so icon names and shadow do not work TW 07/06/13
      **/
 
-	g_signal_connect(CLUTTER_ACTOR(actor), "parent-set", G_CALLBACK(sbitem_texture_load_finished), (gpointer)item);
+    g_signal_connect(CLUTTER_ACTOR(actor), "parent-set", G_CALLBACK(sbitem_texture_load_finished), (gpointer)item);
 
     clutter_actor_set_size(actor, device_info->home_screen_icon_width, device_info->home_screen_icon_height);
     clutter_actor_set_scale(actor, 1.0, 1.0);
-	
-    /* create item */
-    item->texture = actor; 
 
-    if (wallpaper) { 
+    /* create item */
+    item->texture = actor;
+
+    if (wallpaper) {
         actor = clutter_clone_new(icon_shadow);
         clutter_actor_hide(actor);
 	    clutter_actor_set_size(actor, device_info->home_screen_icon_width+24.0, device_info->home_screen_icon_height+24.0);
         item->texture_shadow = actor;
-    } 
+    }
 
     char *txtval = sbitem_get_display_name(item);
     if (txtval) {
-
         item->label = clutter_text_new_with_text(ITEM_FONT, txtval);
-        clutter_actor_hide(item->label); 
-        
-      /*  if (wallpaper) { */
+        clutter_actor_hide(item->label);
 
-            item->label_shadow = clutter_text_new_full(ITEM_FONT, txtval, &label_shadow_color);
-            clutter_actor_hide(item->label_shadow);
+            /*  if (wallpaper) { */
+
+         item->label_shadow = clutter_text_new_full(ITEM_FONT, txtval, &label_shadow_color);
+         clutter_actor_hide(item->label_shadow);
     }
     if (err) {
         fprintf(stderr, "ERROR: %s\n", err->message);
@@ -2107,9 +2095,9 @@ static gboolean sbitem_texture_new(gpointer data)
 
 	if(item->texture){
 		pixbuf = gdk_pixbuf_new_from_file(icon_filename, &err);
-	  
+
 		image = clutter_image_new ();
-	  
+
 			clutter_image_set_data (CLUTTER_IMAGE (image),
                           gdk_pixbuf_get_pixels (pixbuf),
                           gdk_pixbuf_get_has_alpha (pixbuf)
@@ -2120,7 +2108,7 @@ static gboolean sbitem_texture_new(gpointer data)
                           gdk_pixbuf_get_rowstride (pixbuf),
                           NULL);
 		g_object_unref (pixbuf);
-		clutter_actor_set_content (actor, image);	
+		clutter_actor_set_content (actor, image);
 		g_object_unref(image);
 	}
 
@@ -2183,8 +2171,8 @@ static guint gui_load_icon_row(plist_t items, GList **row)
             item = sbitem_new(icon_info);
             if (item != NULL) {
                 /* load texture of icon in a new thread */
-				const gchar *name = "sbitthread";
-				g_thread_new(name, sbitem_thread_load_texture, item);
+                const gchar *name = "sbitthread";
+                g_thread_new(name, sbitem_thread_load_texture, item);
                 *row = g_list_append(*row, item);
                 icon_count++;
             }
@@ -2266,16 +2254,16 @@ static void gui_set_iconstate(plist_t iconstate, const char *format_version)
     }
 }
 
-static void gui_disable_controls() 
+static void gui_disable_controls()
 {
-    gui_fade_start(); 
+    gui_fade_start();
     gui_spinner_start();
 }
 
 static void gui_enable_controls()
 {
     gui_spinner_stop();
-    gui_fade_stop(); 
+    gui_fade_stop();
 }
 
 static gboolean wait_icon_load_finished(gpointer user_data)
@@ -2300,12 +2288,12 @@ static void gui_set_wallpaper(const char *wp)
     wallpaper = NULL;
 	ClutterContent *image = NULL;
 	GdkPixbuf *pixbuf;
-	
+
 	ClutterActor *actor = clutter_actor_new();
 	pixbuf = gdk_pixbuf_new_from_file(wp, &err);
 	image = clutter_image_new ();
-	  
-	clutter_image_set_data (CLUTTER_IMAGE (image),
+
+    clutter_image_set_data (CLUTTER_IMAGE (image),
                           gdk_pixbuf_get_pixels (pixbuf),
                           gdk_pixbuf_get_has_alpha (pixbuf)
                             ? COGL_PIXEL_FORMAT_RGBA_8888
@@ -2314,7 +2302,7 @@ static void gui_set_wallpaper(const char *wp)
                           gdk_pixbuf_get_height (pixbuf),
                           gdk_pixbuf_get_rowstride (pixbuf),
                           NULL);
-	clutter_actor_set_content (actor, image);
+    clutter_actor_set_content (actor, image);
     g_object_unref (pixbuf);
     g_object_unref(image);
     if (err) {
@@ -2322,17 +2310,17 @@ static void gui_set_wallpaper(const char *wp)
         err = NULL;
         return;
     }
-	
+
     clutter_actor_set_size(actor, stage_area.x2, stage_area.y2);
     /* Actor position was, 0, 0 but changed to 0, 18 so that wallpaper does not cover clock etc TW 10/05/12 */
-    clutter_actor_set_position(actor, 0, 18); 
+    clutter_actor_set_position(actor, 0, 18);
     clutter_actor_show(actor);
-	
+
 	/* THIS adds wallpaper to stage  TW 18/05/13 */
-    
+
      clutter_actor_insert_child_below(CLUTTER_ACTOR(stage), actor, ((void *)0));   /* TEST TW 05/05/13 */
-     wallpaper = actor; 
-    
+     wallpaper = actor;
+
     item_text_color.alpha = 255;
 }
 
@@ -2396,7 +2384,7 @@ static gboolean gui_pages_init_cb(gpointer user_data)
         error = NULL;
     }
 
-    clutter_threads_add_timeout(500, (GSourceFunc)wait_icon_load_finished, NULL); 
+    clutter_threads_add_timeout(500, (GSourceFunc)wait_icon_load_finished, NULL);
 
     return FALSE;
 }
@@ -2464,8 +2452,8 @@ static void gui_update_layout(device_info_t info) {
     stage_area.y2 += ((ICON_SPACING*2) * info->home_screen_icon_rows);
     stage_area.y2 += DOCK_HEIGHT;
 
-/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
-/*    printf("%s: stage_area x: %f, y: %f, width: %f, height: %f\n", __func__, stage_area.x1, stage_area.y1, stage_area.x2, stage_area.y2); */
+    /*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+    /*    printf("%s: stage_area x: %f, y: %f, width: %f, height: %f\n", __func__, stage_area.x1, stage_area.y1, stage_area.x2, stage_area.y2); */
 
     /* update areas */
     dock_area.x1 = 0.0;
@@ -2473,16 +2461,16 @@ static void gui_update_layout(device_info_t info) {
     dock_area.x2 = stage_area.x2;
     dock_area.y2 = stage_area.y2;
 
-/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
-/*    printf("%s: dock_area x: %f, y: %f, width: %f, height: %f\n", __func__, dock_area.x1, dock_area.y1, dock_area.x2, dock_area.y2); */
+    /*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+    /*    printf("%s: dock_area x: %f, y: %f, width: %f, height: %f\n", __func__, dock_area.x1, dock_area.y1, dock_area.x2, dock_area.y2); */
 
     sb_area.x1 = 0.0;
     sb_area.y1 = ICON_SPACING;
     sb_area.x2 = stage_area.x2;
     sb_area.y2 = dock_area.y1;
 
-/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
-/*   printf("%s: sb_area x: %f, y: %f, width: %f, height: %f\n", __func__, sb_area.x1, sb_area.y1, sb_area.x2, sb_area.y2); */
+    /*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+    /*   printf("%s: sb_area x: %f, y: %f, width: %f, height: %f\n", __func__, sb_area.x1, sb_area.y1, sb_area.x2, sb_area.y2); */
 
     /* update triggers */
     left_trigger.x1 = -ICON_SPACING - 2;
@@ -2490,16 +2478,16 @@ static void gui_update_layout(device_info_t info) {
     left_trigger.x2 = -(ICON_SPACING / 2);
     left_trigger.y2 = stage_area.y2 - DOCK_HEIGHT - ICON_SPACING;
 
-/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
-/*    printf("%s: left_trigger x: %f, y: %f, width: %f, height: %f\n", __func__, left_trigger.x1, left_trigger.y1, left_trigger.x2, left_trigger.y2); */
+    /*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+    /*    printf("%s: left_trigger x: %f, y: %f, width: %f, height: %f\n", __func__, left_trigger.x1, left_trigger.y1, left_trigger.x2, left_trigger.y2); */
 
     right_trigger.x1 = stage_area.x2 + (ICON_SPACING / 2);
     right_trigger.y1 = ICON_SPACING;
     right_trigger.x2 = stage_area.x2 + (ICON_SPACING*2);
     right_trigger.y2 = stage_area.y2 - DOCK_HEIGHT - ICON_SPACING;
 
-/*  FIXME Used for Trouble-shooting either include in debugging code or remove */
-/*    printf("%s: right_trigger x: %f, y: %f, width: %f, height: %f\n", __func__, right_trigger.x1, right_trigger.y1, right_trigger.x2, right_trigger.y2); */
+    /*  FIXME Used for Trouble-shooting either include in debugging code or remove */
+    /*    printf("%s: right_trigger x: %f, y: %f, width: %f, height: %f\n", __func__, right_trigger.x1, right_trigger.y1, right_trigger.x2, right_trigger.y2); */
 
     /* update widget to new layout */
     gtk_widget_set_size_request(clutter_gtk_widget, stage_area.x2, stage_area.y2);
@@ -2508,10 +2496,8 @@ static void gui_update_layout(device_info_t info) {
     clutter_actor_set_position(the_sb, sb_area.x1, sb_area.y1);
     clutter_actor_set_position(battery_level, stage_area.x2 - 33, 6);
     clutter_actor_set_position(spinner, (stage_area.x2 - 32.0) / 2, (stage_area.y2 - 64.0) / 2);
-	clutter_actor_set_size(fade_rectangle, stage_area.x2, stage_area.y2);
+    clutter_actor_set_size(fade_rectangle, stage_area.x2, stage_area.y2);
 
-
-    
     /**
      * This returns a Runtime error
      * Clutter-CRITICAL **: clutter_actor_set_size: assertion `CLUTTER_IS_ACTOR (self)' failed
@@ -2574,13 +2560,13 @@ GtkWidget *gui_init()
 {
     device_info = device_info_new();
     ClutterActor *actor;
-	ClutterContent *image, *image1, *image2, *image3 = NULL; 
-	GdkPixbuf *pixbuf, *pixbuf1, *pixbuf2, *pixbuf3; 
+	ClutterContent *image, *image1, *image2, *image3 = NULL;
+	GdkPixbuf *pixbuf, *pixbuf1, *pixbuf2, *pixbuf3;
 	gfloat width1, width2, width3 = 0;
     gfloat height1, height2, height3 = 0;
 
     /* if (!g_thread_supported()) */
-       
+
         /**
          * g_thread_init' is deprecated	No longer necessary TW 24/04/13
          * The glib threading system is automatically initialised at the start
@@ -2598,9 +2584,8 @@ GtkWidget *gui_init()
          **/
 
     if (!clutter_threads_initialized) {
-		/* 'clutter_threads_init' is deprecated  No Longer required TW 26/04/13 */
-        
-      	/*  clutter_threads_init(); */
+        /* 'clutter_threads_init' is deprecated  No Longer required TW 26/04/13 */
+        /*  clutter_threads_init(); */
         clutter_threads_initialized = 1;
     }
 
@@ -2625,10 +2610,10 @@ GtkWidget *gui_init()
 
     /* Set up the stage and background color */
     stage = gtk_clutter_embed_get_stage(GTK_CLUTTER_EMBED(clutter_widget));
-	clutter_actor_set_background_color(CLUTTER_ACTOR(stage), &stage_color);
-	
+    clutter_actor_set_background_color(CLUTTER_ACTOR(stage), &stage_color);
+
 	/* FIXME THIS DOES NOT WORK set key focus of stage so left and right keyboard arrows work  */
-	 clutter_stage_set_key_focus(CLUTTER_STAGE(stage),NULL);
+    clutter_stage_set_key_focus(CLUTTER_STAGE(stage),NULL);
 
     /* attach to stage signals */
     g_signal_connect(stage, "motion-event", G_CALLBACK(stage_motion_cb), NULL);
@@ -2636,17 +2621,17 @@ GtkWidget *gui_init()
 
     /* Load ui initial image background */
     GError *err = NULL;
-	 actor = clutter_actor_new();
-	 
+    actor = clutter_actor_new();
+
     /* pixbuf = gdk_pixbuf_new_from_file ("/usr/local/share/sbmanager/background.png", NULL); */
 	/* pixbuf = gdk_pixbuf_new_from_file (iconfilename, &err);  TEST TW 10/08/13 */
 
     pixbuf = gdk_pixbuf_new_from_file (SBMGR_DATA "/background.png", NULL);
-  	if(pixbuf == NULL){
+    if(pixbuf == NULL){
 		fprintf(stderr, "\nError reading image file: background.png\n");
 	}
-	image = clutter_image_new ();
-	  
+	        image = clutter_image_new ();
+
 	        clutter_image_set_data (CLUTTER_IMAGE (image),
                           gdk_pixbuf_get_pixels (pixbuf),
                           gdk_pixbuf_get_has_alpha (pixbuf)
@@ -2657,25 +2642,25 @@ GtkWidget *gui_init()
                           gdk_pixbuf_get_rowstride (pixbuf),
                           &err);
     if (err) {
-	    g_printerr("%s", err->message);
-	    fprintf(stderr,"\n%s\n",err->message);
+        g_printerr("%s", err->message);
+        fprintf(stderr,"\n%s\n",err->message);
         g_error_free(err);
-        err = NULL; 
+        err = NULL;
     }
 
-	g_object_unref (pixbuf);
+    g_object_unref (pixbuf);
 
     gfloat width = 0;
     gfloat height = 0;
-   
-    clutter_content_get_preferred_size(image, &width, &height); 
+
+    clutter_content_get_preferred_size(image, &width, &height);
     clutter_actor_set_size(actor, width, height);
-    clutter_actor_set_content (actor, image);	
-	g_object_unref (image);
+    clutter_actor_set_content (actor, image);
+    g_object_unref (image);
 
 	if (actor) {
         clutter_actor_set_position(actor, 0, 0);
-		clutter_actor_show(actor);
+        clutter_actor_show(actor);
         clutter_actor_add_child(CLUTTER_ACTOR(stage), actor);
 
     } else {
@@ -2683,169 +2668,154 @@ GtkWidget *gui_init()
     }
 
     /* Create device type widget */
-     type_label = clutter_text_new_full(CLOCK_FONT, "", &clock_text_color); 
-	 clutter_actor_add_child(CLUTTER_ACTOR(stage), type_label); 
+     type_label = clutter_text_new_full(CLOCK_FONT, "", &clock_text_color);
+     clutter_actor_add_child(CLUTTER_ACTOR(stage), type_label);
      clutter_actor_set_position(type_label, 3.0, 2.0);
 
      /* clock widget */
     clock_label = clutter_text_new_full(CLOCK_FONT, "00:00", &clock_text_color);
-	clutter_actor_add_child(CLUTTER_ACTOR(stage), clock_label);
+    clutter_actor_add_child(CLUTTER_ACTOR(stage), clock_label);
 
     /* Position the clock widget to the centre top of stage on gui initial startup TW 26/05/13 */
 
     /* page indicator group for holding the page indicator dots */
    page_indicator_group = clutter_actor_new();
    clutter_actor_add_child(CLUTTER_ACTOR(stage), page_indicator_group);
-	
+
      /* alignment will be done when new indicators are added */
-    clutter_actor_set_position(page_indicator_group, 0, stage_area.y2 - DOCK_HEIGHT - ICON_SPACING); 
+    clutter_actor_set_position(page_indicator_group, 0, stage_area.y2 - DOCK_HEIGHT - ICON_SPACING);
 
      /* page indicator (dummy), will be cloned when the pages are created */
     page_indicator = clutter_actor_new();
     pixbuf1 = gdk_pixbuf_new_from_file(SBMGR_DATA "/dot.png", &err);
 
      /* pixbuf1 = gdk_pixbuf_new_from_file ("/usr/local/share/sbmanager/dot.png", NULL); */
-    
+
     if(pixbuf1 == NULL){
 		fprintf(stderr, "\nError reading data file:dot.png\n");
-	} 
-  
-	image1 = clutter_image_new (); 
-	  
-	clutter_image_set_data (CLUTTER_IMAGE (image1), 
-                          gdk_pixbuf_get_pixels (pixbuf1), 
-                          gdk_pixbuf_get_has_alpha (pixbuf1) 
-                            ? COGL_PIXEL_FORMAT_RGBA_8888 
-                            : COGL_PIXEL_FORMAT_RGB_888, 
-                          gdk_pixbuf_get_width (pixbuf1), 
-                          gdk_pixbuf_get_height (pixbuf1), 
-                          gdk_pixbuf_get_rowstride (pixbuf1), 
-                          &err);
-     if (err) {
-	    g_printerr("%s", err->message);
-	    fprintf(stderr,"\n%s\n",err->message);
-        g_error_free(err);
-        err = NULL; 
 	}
-    g_object_unref (pixbuf1); 
 
-    clutter_content_get_preferred_size(image1, &width1, &height1); 
+    image1 = clutter_image_new ();
 
+	clutter_image_set_data (CLUTTER_IMAGE (image1),
+                          gdk_pixbuf_get_pixels (pixbuf1),
+                          gdk_pixbuf_get_has_alpha (pixbuf1)
+                            ? COGL_PIXEL_FORMAT_RGBA_8888
+                            : COGL_PIXEL_FORMAT_RGB_888,
+                          gdk_pixbuf_get_width (pixbuf1),
+                          gdk_pixbuf_get_height (pixbuf1),
+                          gdk_pixbuf_get_rowstride (pixbuf1),
+                          &err);
+    if (err) {
+        g_printerr("%s", err->message);
+        fprintf(stderr,"\n%s\n",err->message);
+        g_error_free(err);
+        err = NULL;
+	}
+    g_object_unref (pixbuf1);
+    clutter_content_get_preferred_size(image1, &width1, &height1);
     clutter_actor_set_size(page_indicator, width1, height1);
-    
-    clutter_actor_set_content (page_indicator, image1); 
+    clutter_actor_set_content (page_indicator, image1);
+    g_object_unref (image1);
 
-    g_object_unref (image1); 
-	
-    if (err) { 
-        fprintf(stderr, "Could not load texture"  "SBMGR_DATA" "/dot.png : %s\n", err->message); 
-        g_error_free(err); 
-        err = NULL; 
-    } 
-    if (page_indicator) { 
-         clutter_actor_hide(page_indicator); 
-		 clutter_actor_add_child(CLUTTER_ACTOR(stage), page_indicator); 
-    } 
+    if (err) {
+        fprintf(stderr, "Could not load texture"  "SBMGR_DATA" "/dot.png : %s\n", err->message);
+        g_error_free(err);
+        err = NULL;
+    }
+    if (page_indicator) {
+        clutter_actor_hide(page_indicator);
+        clutter_actor_add_child(CLUTTER_ACTOR(stage), page_indicator);
+    }
 
     /* icon shadow texture dummy, cloned when drawing the icons */
-    
-	icon_shadow = clutter_actor_new();
-	pixbuf2 = gdk_pixbuf_new_from_file (SBMGR_DATA "/iconshadow.png", NULL); 
+
+    icon_shadow = clutter_actor_new();
+    pixbuf2 = gdk_pixbuf_new_from_file (SBMGR_DATA "/iconshadow.png", NULL);
     if (pixbuf2 == NULL){
-		fprintf(stderr, "\nError reading image file:" "SBMGR_DATA" "/iconshadow.png\n");
-	} 
-	image2 = clutter_image_new (); 
-	  
-	clutter_image_set_data (CLUTTER_IMAGE (image2), 
-                          gdk_pixbuf_get_pixels (pixbuf2), 
-                          gdk_pixbuf_get_has_alpha (pixbuf2) 
-                           ? COGL_PIXEL_FORMAT_RGBA_8888 
-                           : COGL_PIXEL_FORMAT_RGB_888, 
-                          gdk_pixbuf_get_width (pixbuf2), 
-                          gdk_pixbuf_get_height (pixbuf2), 
-                          gdk_pixbuf_get_rowstride (pixbuf2), 
-                          &err); 
-	if (err) { 
-        fprintf(stderr, "Could not load texture"  "SBMGR_DATA" "/iconshadow.png : %s\n", err->message); 
-        g_error_free(err); 
-        err = NULL; 
-    } 
-    
-    g_object_unref (pixbuf2); 
-    
-    clutter_content_get_preferred_size(image2, &width2, &height2); 
+        fprintf(stderr, "\nError reading image file:" "SBMGR_DATA" "/iconshadow.png\n");
+	}
+	image2 = clutter_image_new ();
 
+	clutter_image_set_data (CLUTTER_IMAGE (image2),
+                          gdk_pixbuf_get_pixels (pixbuf2),
+                          gdk_pixbuf_get_has_alpha (pixbuf2)
+                           ? COGL_PIXEL_FORMAT_RGBA_8888
+                           : COGL_PIXEL_FORMAT_RGB_888,
+                          gdk_pixbuf_get_width (pixbuf2),
+                          gdk_pixbuf_get_height (pixbuf2),
+                          gdk_pixbuf_get_rowstride (pixbuf2),
+                          &err);
+	if (err) {
+        fprintf(stderr, "Could not load texture"  "SBMGR_DATA" "/iconshadow.png : %s\n", err->message);
+        g_error_free(err);
+        err = NULL;
+    }
+
+    g_object_unref (pixbuf2);
+    clutter_content_get_preferred_size(image2, &width2, &height2);
     clutter_actor_set_size(icon_shadow, width2, height2);
-    
-    clutter_actor_set_content(icon_shadow, image2); 
+    clutter_actor_set_content(icon_shadow, image2);
+    g_object_unref (image2);
 
-    g_object_unref (image2); 
-	
-    if (icon_shadow) { 
-        clutter_actor_hide(icon_shadow); 
-		clutter_actor_add_child(CLUTTER_ACTOR(stage), icon_shadow); 
-
-    } 
+    if (icon_shadow) {
+        clutter_actor_hide(icon_shadow);
+        clutter_actor_add_child(CLUTTER_ACTOR(stage), icon_shadow);
+    }
 
     /* folder marker */
 
-	folder_marker = clutter_actor_new(); 
+    folder_marker = clutter_actor_new();
 	/* gtk_image_new_from_file(SBMGR_DATA "/foldermarker.png"); */
-	pixbuf3 = gdk_pixbuf_new_from_file (SBMGR_DATA "/foldermarker.png", NULL);
-    
+    pixbuf3 = gdk_pixbuf_new_from_file (SBMGR_DATA "/foldermarker.png", NULL);
+
     if (pixbuf3 == NULL){
-		fprintf(stderr, "\nError reading image file:" "SBMGR_DATA" "/foldermarker.png\n");
-	}
+        fprintf(stderr, "\nError reading image file:" "SBMGR_DATA" "/foldermarker.png\n");
+    }
 
     image3 = clutter_image_new ();
-  
-	clutter_image_set_data (CLUTTER_IMAGE (image3), 
-                          gdk_pixbuf_get_pixels (pixbuf3), 
-                          gdk_pixbuf_get_has_alpha (pixbuf3) 
-                            ? COGL_PIXEL_FORMAT_RGBA_8888 
-                            : COGL_PIXEL_FORMAT_RGB_888, 
-                          gdk_pixbuf_get_width (pixbuf3), 
-                          gdk_pixbuf_get_height (pixbuf3), 
-                          gdk_pixbuf_get_rowstride (pixbuf3), 
+
+    clutter_image_set_data (CLUTTER_IMAGE (image3),
+                          gdk_pixbuf_get_pixels (pixbuf3),
+                          gdk_pixbuf_get_has_alpha (pixbuf3)
+                            ? COGL_PIXEL_FORMAT_RGBA_8888
+                            : COGL_PIXEL_FORMAT_RGB_888,
+                          gdk_pixbuf_get_width (pixbuf3),
+                          gdk_pixbuf_get_height (pixbuf3),
+                          gdk_pixbuf_get_rowstride (pixbuf3),
                           &err);
 
-    if (err) { 
-        fprintf(stderr, "Could not load texture"  "SBMGR_DATA" "/foldermarker.png : %s\n", err->message); 
-        g_error_free(err); 
+    if (err) {
+        fprintf(stderr, "Could not load texture"  "SBMGR_DATA" "/foldermarker.png : %s\n", err->message);
+        g_error_free(err);
         err = NULL;
-    }   
-	g_object_unref (pixbuf3); 
-    
-    clutter_content_get_preferred_size(image3, &width3, &height3); 
+    }
+    g_object_unref (pixbuf3);
+    clutter_content_get_preferred_size(image3, &width3, &height3);
+    clutter_actor_set_size(folder_marker, width3, height3);
+    clutter_actor_set_content (folder_marker, image3);
+    g_object_unref (image3);
 
-    clutter_actor_set_size(folder_marker, width3, height3);	
-    
-    clutter_actor_set_content (folder_marker, image3); 
-
-    g_object_unref (image3); 
-
-     
-    if (folder_marker) { 
-         clutter_actor_hide(folder_marker); 
-		clutter_actor_add_child(CLUTTER_ACTOR(stage), folder_marker); 
-
-   }
+    if (folder_marker) {
+        clutter_actor_hide(folder_marker);
+        clutter_actor_add_child(CLUTTER_ACTOR(stage), folder_marker);
+    }
 
     /* a group for the springboard icons */
     the_sb = clutter_actor_new();
-	clutter_actor_add_child(CLUTTER_ACTOR(stage), the_sb);
+    clutter_actor_add_child(CLUTTER_ACTOR(stage), the_sb);
     clutter_actor_set_position(the_sb, sb_area.x1, sb_area.y1);
 
     /* a group for the dock icons */
     the_dock = clutter_actor_new();
-	clutter_actor_add_child(CLUTTER_ACTOR(stage), the_dock);
+    clutter_actor_add_child(CLUTTER_ACTOR(stage), the_dock);
     clutter_actor_set_position(the_dock, dock_area.x1, dock_area.y1);
-	gui_fade_init(); 
+    gui_fade_init();
     gui_spinner_init();
 
     /* Create a timeline to manage animation */
     clock_timeline = clutter_timeline_new(200);
-	clutter_timeline_set_repeat_count(clock_timeline, -1);  /* have it loop */
+    clutter_timeline_set_repeat_count(clock_timeline, -1);  /* have it loop */
 
     /* fire a callback for frame change */
     g_signal_connect(clock_timeline, "completed", G_CALLBACK(clock_update_cb), NULL);
@@ -2855,18 +2825,17 @@ GtkWidget *gui_init()
 
     /* Position and update the clock */
     clock_set_time(clock_label, time(NULL));
-    
+
     /**
      * FIXME There is no initial positioning of actor set, so this may be why the clock appears on the
      * r/h side where the battery is normally located, on start up TW 23/05/13
      **/
-    
+
     clutter_actor_show(clock_label);
 
     /* battery capacity */
     battery_level = clutter_actor_new();
     clutter_actor_set_background_color(battery_level, &battery_color);
-
     clutter_actor_add_child(CLUTTER_ACTOR(stage), battery_level);
     clutter_actor_set_position(battery_level, stage_area.x2 - 22, 6);
 

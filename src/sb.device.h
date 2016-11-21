@@ -1,5 +1,5 @@
 /**
- * device.h
+ * sb.device.h
  * Device communication functions (header file)
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
@@ -19,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  */
 #ifndef DEVICE_H

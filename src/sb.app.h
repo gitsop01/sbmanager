@@ -2,7 +2,7 @@
  * sb.app.h -- Sbmanager app header
  *
  * Copyright (C) 2016 Timothy Ward <gtwa001@gmail.com>
- * 
+ *
  * Licensed under the GNU General Public License Version 2
  *
  * This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  */
 
@@ -38,10 +38,10 @@
 #include <gio/gio.h>
 #include <locale.h>
 #include <clutter/clutter.h>
-#include <clutter-gtk/clutter-gtk.h> 
+#include <clutter-gtk/clutter-gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "sbmgr.h"
-#include "utility.h"
+#include "sb.mgr.h"
+#include "sb.utility.h"
 
 
 G_BEGIN_DECLS
@@ -82,7 +82,7 @@ void device_event_cb(const idevice_event_t *event, void *user_data);
 GType sb_app_get_type (void) G_GNUC_CONST;
 
 SbApp         *sb_app_new               (void);
-void           app_quit              (SbApp *self);
+void           sbapp_quit              (SbApp *self);
 SbApp 		*sb_app_start (GApplication *application);
 
 

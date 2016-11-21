@@ -1,5 +1,5 @@
 /**
- * utility.c
+ * sb.utility.c
  * Debugging and helper function implementation.
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
@@ -19,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335
  * USA
  */
 
@@ -29,7 +29,7 @@
 #include <time.h>
 #include <sys/time.h>
 
-#include "utility.h"
+#include "sb.utility.h"
 
 /* debug */
 static gboolean debug_app = FALSE;
