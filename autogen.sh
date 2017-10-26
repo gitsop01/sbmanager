@@ -6,5 +6,5 @@ automake --add-missing
 autoconf
 
 if [ -z "$NOCONFIGURE" ]; then
-    ./configure "$@"
+	./configure "$@"
 fi

@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
  * Copyright (C) 2009-2010 Martin Szulecki <opensuse@sukimashita.com>
- * Copyright (C) 2013-2016 Timothy Ward <gtwa001@gmail.com>
+ * Copyright (C) 2013-2017 Timothy Ward <gtwa001@gmail.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -27,7 +27,7 @@
 
 #include <string.h>
 #include <glib.h>
-#include <gtk/gtk.h>
+#include <gtk-3.0/gtk/gtk.h>
 #include <plist/plist.h>
 
 #include "sb.mgr.h"

@@ -1,7 +1,7 @@
 /**
  * sb.app.h -- Sbmanager app header
  *
- * Copyright (C) 2016 Timothy Ward <gtwa001@gmail.com>
+ * Copyright (C) 2016-2017 Timothy Ward <gtwa001@gmail.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -24,7 +24,7 @@
 #ifndef __SB_APP_H__
 #define __SB_APP_H__
 
-#include <gtk/gtk.h>
+#include <gtk-3.0/gtk//gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

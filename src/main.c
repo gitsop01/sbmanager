@@ -57,7 +57,8 @@ int main(int argc, char **argv)
 	gboolean test = FALSE;
 	GError **error = NULL;
 
-gdk_set_allowed_backends("x11,wayland,*");
+
+/*	gdk_set_allowed_backends("x11,wayland,*"); */
 
 /*	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");

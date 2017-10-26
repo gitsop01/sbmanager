@@ -26,7 +26,7 @@
 #ifndef SBMGR_H
 #define SBMGR_H
 
-#include <gtk/gtk.h>
+#include <gtk-3.0/gtk/gtk.h>
 
 typedef void (*device_info_cb_t)(const char *device_name, const char *device_type);
 typedef void (*finished_cb_t)(gboolean success);

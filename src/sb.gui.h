@@ -26,7 +26,7 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include <gtk/gtk.h>
+#include <gtk-3.0/gtk/gtk.h>
 #include <plist/plist.h>
 #include "sb.mgr.h"
 

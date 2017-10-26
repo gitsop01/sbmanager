@@ -37,3 +37,4 @@ sbmanager_CFLAGS = $(AM_CFLAGS)
 sbmanager_LDFLAGS = $(AM_LDFLAGS)
 sbmanager_LDADD = libsbmanager.la
 
+

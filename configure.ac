@@ -42,7 +42,7 @@ PKG_CHECK_MODULES(libgthread2, gthread-2.0 >= 2.14.1)
 PKG_CHECK_MODULES(libplist, libplist >= 1.0)
 PKG_CHECK_MODULES(libclutter, clutter-1.0 >= 1.24.0)
 PKG_CHECK_MODULES(libgtk3, gtk+-3.0 >= 3.18.0)
-PKG_CHECK_MODULES(libcluttergtk, clutter-gtk-1.0 >= 1.6.2)
+PKG_CHECK_MODULES(libcluttergtk, clutter-gtk-1.0 >= 1.8.2)
 PKG_CHECK_MODULES(libgdkpixbuf, gdk-pixbuf-2.0 >= 2.16)
 PKG_CHECK_MODULES(libbz2, bzip2 >= 1.0) #Fedora has pkg-config file.
  
