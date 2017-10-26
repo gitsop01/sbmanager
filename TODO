@@ -3,7 +3,7 @@
 
 2) Turn it into a true gtk3 application using gtkapplication with better about-dialogue, and command-line arguments. WIP
 
-   Remember dbus service file, .desktop file, start and activate signals etc DONE
+   Add dbus service file, .desktop file, start and activate signals etc DONE
 
 3) Refactor gui.c code for displaying folder as icons with mini-icons as per phone display this include
    open, move and close folder icon sections. Use clutter grid for icons on stage with dnd to move them- see if
@@ -19,6 +19,7 @@
 
 8) Add app-data file - update to lastest version
 
-9) Add initial background file for ipad to /Data
+9) Remove initial phone background file for an ipad
+   Add resized background file for later iphone's
 
 10) Add Application icon in /DATA

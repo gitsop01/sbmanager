@@ -42,7 +42,7 @@ PKG_CHECK_MODULES(libgthread2, gthread-2.0 >= 2.14.1)
 PKG_CHECK_MODULES(libplist, libplist >= 1.0)
 PKG_CHECK_MODULES(libclutter, clutter-1.0 >= 1.24.0)
 PKG_CHECK_MODULES(libgtk3, gtk+-3.0 >= 3.18.0)
-PKG_CHECK_MODULES(libcluttergtk, clutter-gtk-1.0 >= 1.6.0) 
+PKG_CHECK_MODULES(libcluttergtk, clutter-gtk-1.0 >= 1.6.2)
 PKG_CHECK_MODULES(libgdkpixbuf, gdk-pixbuf-2.0 >= 2.16)
 PKG_CHECK_MODULES(libbz2, bzip2 >= 1.0) #Fedora has pkg-config file.
  
@@ -75,7 +75,7 @@ GETTEXT_PACKAGE=sbmanager
 AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE", [Gettext package])
 AM_GLIB_GNU_GETTEXT
-IT_PROG_INTLTOOL([0.35.0])
+# IT_PROG_INTLTOOL([0.35.0])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
