@@ -77,10 +77,10 @@ char *current_uuid = NULL;
 */
 
 static void
-about_cb (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
+about_cb (gpointer user_data)
 {
     GtkApplication *app;
-    GtkWindow *parent;
+    GtkWindow *parent; 
 
    const gchar *authors[] = {
         "Nikias Bassen <nikias@gmx.li>",
@@ -105,7 +105,7 @@ about_cb (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
 	 app = GTK_APPLICATION (user_data);
      parent = gtk_application_get_active_window (GTK_APPLICATION (app));
 
-    gtk_show_about_dialog(parent,
+    gtk_show_about_dialog (parent,
             "authors", authors,
             "copyright", copyright,
             "program-name", program_name,
@@ -113,7 +113,7 @@ about_cb (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
             "comments", comments,
             "website", website,
             "website-label", website_label,
-			"license-type", GTK_LICENSE_GPL_2_0,
+            "license-type", GTK_LICENSE_GPL_2_0,
             "translator-credits", translators,
             NULL);
 
