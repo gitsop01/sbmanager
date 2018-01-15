@@ -1970,9 +1970,9 @@ static void gui_show_icons()
                     }
                     actor = item->texture;
 
-					/*  Clutter-CRITICAL **: clutter_actor_add_child: assertion `child->priv->parent == NULL' failed
-					 * Runlime error TW 10/05/13
-                     */
+			/**  Clutter-CRITICAL **: clutter_actor_add_child: assertion `child->priv->parent == NULL' failed
+			 * Runlime error TW 10/05/13
+			 */
 
                     clutter_actor_add_child(CLUTTER_ACTOR(grp), actor);
                     clutter_actor_set_position(actor, xpos, ypos);
