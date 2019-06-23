@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 
 	/* start up the application window with dbus activation */
 	/* FIXME START GTK-INSPECTOR - interactive debugger */
-	 gtk_window_set_interactive_debugging(TRUE);
+ 	 gtk_window_set_interactive_debugging(TRUE);
 
 	application = sb_app_new();
 	test = g_application_register (G_APPLICATION (application), NULL, error);

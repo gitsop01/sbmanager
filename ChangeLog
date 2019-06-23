@@ -1,6 +1,6 @@
- Timothy Ward <gtwa001@gmail> 2013-2017
+ Timothy Ward <gtwa001@gmail> 2013-2018
 
-This is a change log for sbmanager to GTK3  
+This is a change log for sbmanager to GTK3
 
 
 Sbmanager version = 0.1.2
@@ -8,11 +8,11 @@ Sbmanager version = 0.1.2
 Change All Clutter deprecated functions to bring it up to clutter 1.14.4.
 There was a lot of deprecated functions as the Clutter API has changed a lot.
 
-Change code for all compiler warnings for both GTK3 and minor libimobiledevice 
+Change code for all compiler warnings for both GTK3 and minor libimobiledevice
 library calls and function arguments.
 
 At this point the code compiled using gcc but the application failed to run due
-to gtk2 and gtk3 library available.  
+to gtk2 and gtk3 library available.
 
 For development test remove GTK2 library from development system
 to ensure the application still runs. The application should operate
@@ -37,7 +37,7 @@ The initial test of the application failed to run due to Gmutex locks and unlock
     Ref: - Glib Reference manual - Glib is thread safe
 
     GMutex Locks
-    Clutter threading support is initialized when Clutter is initialized 
+    Clutter threading support is initialized when Clutter is initialized
     Ref : Clutter Reference Manual
 
 
@@ -53,7 +53,7 @@ Further clutter code was added to load icons, and needs further cleanup and prop
 handling .
 
 Clutter code was added to the gui.c file for initial gui image files load but failed due to not
-setting the size of the images in clutter,further cleanup and error code handling still to be 
+setting the size of the images in clutter,further cleanup and error code handling still to be
 done.
 
 Lots of debugging code added around Clutter functions to isolate Clutter critical run time errors
@@ -88,7 +88,7 @@ iconshadow.png file added to makefile.am to ensure it is installed in correct di
 
 Sbmanager version = 0.2.0
 
-gapplication code added for dbus activation for gnome 3  
+gapplication code added for dbus activation for gnome 3
 
 Application runs on X window server as well as wayland
 

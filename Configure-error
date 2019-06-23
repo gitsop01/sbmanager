@@ -1,0 +1,11 @@
+
+									DATE 20/07/18
+configure failure in configure script in sbmanager
+
+When using the autogen.sh file to rebuild the configure script a failure
+was appearing in the configure script that require deleting from the script before
+the script would work
+
+This was the code above the # i18n section and had <tr> etc in it.
+
+

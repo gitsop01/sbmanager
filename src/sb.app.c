@@ -29,11 +29,11 @@
 #include "sb.app.h"
 #include "sb.device.h"
 
-typedef struct {
+typedef struct { 
 
-} SbAppPrivate;
+} SbAppPrivate; 
 
-G_DEFINE_TYPE_WITH_PRIVATE (SbApp, sb_app, GTK_TYPE_APPLICATION);
+G_DEFINE_TYPE_WITH_PRIVATE(SbApp, sb_app, GTK_TYPE_APPLICATION);
 
 
 
@@ -125,8 +125,8 @@ static void
 sb_app_startup (GApplication *application)
 {
 
-      /*   SbApp *app = SB_APP (application); */
-     /*   SbAppPrivate *priv = dh_app_get_instance_private (app); */
+     /*    SbApp *app = SB_APP (application); 
+        SbAppPrivate *priv = dh_app_get_instance_private (app); */
 
               /* Chain up parent's startup */
         G_APPLICATION_CLASS (sb_app_parent_class)->startup (application);

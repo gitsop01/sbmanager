@@ -1,0 +1,6 @@
+
+1) If fedora o/s was updated use aclocal --force to update build source files
+
+2) configure.ac had a AS_COMPILER_FLAGS  and AC_SUBST(GLOBAL_CFLAGS) in it which needed to be commented out before make would run.
+
+3) Run automake then make
