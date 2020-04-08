@@ -96,3 +96,9 @@ Sbmanager version = 0.2.0 Branched tagged v0.2.0  first prerelease with all depr
 
 Sbmanager version = 0.2.1 Master Code cleanup with all deprecated code comments removed and gapplication code added.
 
+Sbmanager version = 0.2.2 Master Code cleanup only
+
+Sbmanager version = 0.2.3 Master Code cleanup for GCC 10.0.1
+
+
+

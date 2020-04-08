@@ -1,7 +1,7 @@
 /**
  * sb.app.h -- Sbmanager app header
  *
- * Copyright (C) 2016-2017 Timothy Ward <gtwa001@gmail.com>
+ * Copyright (C) 2016-2020 Timothy Ward <gtwa001@gmail.com>
  *
  * Licensed under the GNU General Public License Version 2
  *

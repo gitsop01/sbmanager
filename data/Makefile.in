@@ -307,10 +307,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pixmapdir = $(pkgdatadir)
+pixmapdir = @datarootdir@
 PIX = background.png dot.png folder.png foldermarker.png iconshadow.png
 pixmap_DATA = $(PIX)
-desktopdir = $(datadir)/applications
+desktopdir = @datadir@/applications
 desktop_in_files = github.com.gitsop01.sbmanager.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 EXTRA_DIST = \
@@ -563,7 +563,7 @@ uninstall-am: uninstall-desktopDATA uninstall-pixmapDATA
 
 .PRECIOUS: Makefile
 
-@INTLTOOL_DESKTOP_RULE@
+	@INTLTOOL_DESKTOP_RULE@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

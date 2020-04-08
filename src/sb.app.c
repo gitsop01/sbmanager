@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
  * Copyright (C) 2009-2010 Martin Szulecki <opensuse@sukimashita.com>
- * Copyright (C) 2016-2017 Timothy Ward <gtwa001@gmail.com>
+ * Copyright (C) 2016-2020 Timothy Ward <gtwa001@gmail.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -29,11 +29,12 @@
 #include "sb.app.h"
 #include "sb.device.h"
 
-typedef struct { 
+typedef struct Sbapp { 
 
-} SbAppPrivate; 
+	GtkApplication parent;
+}; 
 
-G_DEFINE_TYPE_WITH_PRIVATE(SbApp, sb_app, GTK_TYPE_APPLICATION);
+G_DEFINE_TYPE(SbApp, sb_app, GTK_TYPE_APPLICATION);
 
 
 
@@ -90,7 +91,7 @@ about_cb (gpointer user_data)
     };
 
 
-    const gchar *copyright =  "Copyright © 2009-2010 Nikias Bassen, Martin Szulecki, 2013-2017 Timothy Ward, All Rights Reserved.";
+    const gchar *copyright =  "Copyright © 2009-2010 Nikias Bassen, Martin Szulecki, 2013-2020 Timothy Ward, All Rights Reserved.";
     const gchar *program_name = PACKAGE_NAME;
     const gchar *comments = _("Manage iPhone/iPod Touch SpringBoard from the computer");
     const gchar *website = "https://github.com/gitsop01/sbmanager.git";

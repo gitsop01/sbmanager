@@ -19,7 +19,7 @@
 
 GETTEXT_PACKAGE = sbmanager
 PACKAGE = sbmanager
-VERSION = 0.2.2
+VERSION = 0.2.3
 
 SHELL = /bin/sh
 
