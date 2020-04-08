@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
  * Copyright (C) 2009-2010 Martin Szulecki <opensuse@sukimashita.com>
- * Copyright (C) 2013-2016 Timothy Ward <gtwa001@gmail.com>
+ * Copyright (C) 2013-2020 Timothy Ward <gtwa001@gmail.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -30,7 +30,7 @@
 #include "sb.app.h"
 #include <gdk/gdk.h>
 
-GtkWidget *main_window;
+extern GtkWidget *main_window;
 
 void gui_error_dialog(const gchar *string)
 {

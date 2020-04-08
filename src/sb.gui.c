@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
  * Copyright (C) 2009-2010 Martin Szulecki <opensuse@sukimashita.com>
- * Copyright (C) 2012-2017 Timothy Ward <gtwa001@gmail.com>
+ * Copyright (C) 2012-2020 Timothy Ward <gtwa001@gmail.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -2553,7 +2553,7 @@ void gui_pages_load(const char *uuid, device_info_cb_t info_cb, finished_cb_t fi
 
     /* Load device information */
 	const gchar *name1 = "iconloadthrd";
-	g_thread_new(name1, (GThreadFunc)device_info_cb, (gpointer)uuid);
+	g_thread_new(name1, (gpointer) device_info_cb, (gpointer)uuid);
 }
 
 GtkWidget *gui_init()

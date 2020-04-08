@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2009-2010 Nikias Bassen <nikias@gmx.li>
  * Copyright (C) 2009-2010 Martin Szulecki <opensuse@sukimashita.com>
- * Copyright (C) 2013-2017 Timothy Ward <gtwa001@gmail.com>
+ * Copyright (C) 2013-2020 Timothy Ward <gtwa001@gmail.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -40,7 +40,7 @@ static finished_cb_t finished_callback = NULL;
 
 GtkWidget *sbmgr_new()
 {
-    if (!g_thread_supported())
+  /*  if (!g_thread_supported()) */
 
     /* initialize device communication environment */
     device_init();
@@ -63,7 +63,7 @@ void sbmgr_load(const char *uuid, device_info_cb_t info_cb, finished_cb_t finish
     finished_callback = finished_cb;
 
 	const gchar *name1 = "sbloadthd";
-	g_thread_new(name1, (GThreadFunc)gui_pages_load_cb, (gpointer)uuid);
+	g_thread_new(name1, (gpointer)gui_pages_load_cb, (gpointer)uuid);
 
 }
 

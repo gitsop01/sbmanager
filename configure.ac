@@ -3,7 +3,7 @@
 
 $(LIBDIR) :/usr/lib64
 AC_PREREQ(2.61) # minimum version Autoconf to use.
-AC_INIT(sbmanager, 0.2.2, www.github.com/gitsop01/sbmanager)
+AC_INIT(sbmanager, 0.2.3, www.github.com/gitsop01/sbmanager)
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
 AC_CONFIG_SRCDIR([src/])
 AC_CONFIG_HEADERS([config.h])
