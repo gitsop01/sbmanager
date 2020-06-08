@@ -5,8 +5,8 @@
 
    Add dbus service file, .desktop file, start and activate signals etc DONE
 
-3) Refactor gui.c code for displaying folder as icons with mini-icons as per phone display this include
-   open, move and close folder icon sections. Use clutter grid for icons on stage with dnd to move them- see if
+3) Refactor gui.c code for displaying folder as icons with mini-icons as per latest phone display this include
+   open, move and close folder icon sections. Use clutter oor gtk grid for icons on stage with gtk dnd to move them- see if
    clutter contrainsts can be used to control movement of icons
 
 4) Refactor drag and drop code to work correctly on the sb-area and dock area and between the two.
