@@ -552,9 +552,9 @@ static void gui_page_indicator_group_align()
         clutter_actor_set_position(dot, xpos, 0.0);
         clutter_actor_set_name(dot, g_strdup_printf("%d", i));
         if (i == current_page) {
-            clutter_actor_set_opacity(dot, 255);
+            clutter_actor_set_opacity(dot, 0);
         } else {
-            clutter_actor_set_opacity(dot, 255);
+            clutter_actor_set_opacity(dot, 0);
         }
         xpos += clutter_actor_get_width(dot);
     }
