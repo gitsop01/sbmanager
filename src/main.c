@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 		printf("g_application_register returned FALSE\n");
 	}
 
-	g_application_hold (G_APPLICATION (application));
+	 g_application_hold (G_APPLICATION (application)); 
 
 	status = g_application_run (G_APPLICATION (application), argc, argv);
 

@@ -6,8 +6,8 @@
    Add dbus service file, .desktop file, start and activate signals etc DONE
 
 3) Refactor gui.c code for displaying folder as icons with mini-icons as per latest phone display this include
-   open, move and close folder icon sections. Use clutter oor gtk grid for icons on stage with gtk dnd to move them- see if
-   clutter contrainsts can be used to control movement of icons
+   open, move and close folder icon sections. Use clutter or gtk grid for icons on stage with gtk dnd to move them.
+   see if Drag and Drop can be used to control movement of icons.
 
 4) Refactor drag and drop code to work correctly on the sb-area and dock area and between the two.
 
@@ -25,3 +25,5 @@
 10) Add Application icon in /DATA
 
 11) Update code for GCC 10.0.1 DONE 09/04/2020
+
+12) Update code for GTK4 update - branched 30/12/20

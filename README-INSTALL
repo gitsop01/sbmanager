@@ -9,4 +9,5 @@ This is usually /usr/share/dbus-1/services but may be at a different location on
 The application specific .desktop file is also renamed to github.com.gitsop01.sbmanager.desktop and is
 usually located in /usr/share/applications, but may be at a different location on your distribution.
 
-
+ To launch for the command line use: 
+ gapplication launch github.com.gitsop01.sbmanager
