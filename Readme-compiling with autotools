@@ -4,3 +4,12 @@
 2) configure.ac had a AS_COMPILER_FLAGS  and AC_SUBST(GLOBAL_CFLAGS) in it which needed to be commented out before make would run.
 
 3) Run automake then make
+
+Ensure all development and make packages are installed
+automake
+autoheader
+libtool
+
+libimobiledevice-devel
+glib2-devel
+Clutter-gtk-devel

@@ -40,10 +40,10 @@ AC_PROG_LIBTOOL
 # pkg-config --exists module (library name) to check module availablity
 # Fedora has pkg-config file.
 
-PKG_CHECK_MODULES(libimobiledevice, libimobiledevice-1.0 >= 1.2.0)
+PKG_CHECK_MODULES(libimobiledevice, libimobiledevice-1.0 >= 1.1.0)
 PKG_CHECK_MODULES(libglib, glib-2.0 >= 1.0.0)
 PKG_CHECK_MODULES(libgthread2, gthread-2.0 >= 2.14.1)
-PKG_CHECK_MODULES(libplist, libplist >= 1.0)
+PKG_CHECK_MODULES(libplist, libplist-2.0 >= 2.2.0)
 PKG_CHECK_MODULES(libclutter, clutter-1.0 >= 1.24.0)
 PKG_CHECK_MODULES(libgtk3, gtk+-3.0 >= 3.18.0)
 PKG_CHECK_MODULES(libcluttergtk, clutter-gtk-1.0 >= 1.8.2)
