@@ -1,29 +1,31 @@
 
 1) Remove Define for HAVE_LIBIMOBILEDEVICE_1_1_5 references in source code as as no longer needed. DONE
 
-2) Turn it into a true gtk3 application using gtkapplication with better about-dialogue, and command-line arguments. WIP
+2) Turn it into a true gtk3 application using gtkapplication with better about-dialogue, and command-line arguments. WIP app shutdown code still incomplete
 
    Add dbus service file, .desktop file, start and activate signals etc DONE
+   
+3) It should be possible to make it a full GTK4 app with the GTK4 update branch and remove the clutter library
 
-3) Refactor gui.c code for displaying folder as icons with mini-icons as per latest phone display this include
+4) Refactor gui.c code for displaying folder as icons with mini-icons as per latest phone display this include
    open, move and close folder icon sections. Use clutter or gtk grid for icons on stage with gtk dnd to move them.
    see if Drag and Drop can be used to control movement of icons.
 
-4) Refactor drag and drop code to work correctly on the sb-area and dock area and between the two.
+5) Refactor drag and drop code to work correctly on the sb-area and dock area and between the two.
 
-5) Carry out and audit on the clutter code used for actor_raise_above to ensure it is used correctly.
+6) Carry out and audit on the clutter code used for actor_raise_above to ensure it is used correctly.
 
-6) Remove licence info in each file to a seperate licence file - include full licence details
+7) Remove licence info in each file to a seperate licence file - include full licence details
 
-7) Find out why keyboard left and right arrows do not work to page through the springbox display.
+8) Find out why keyboard left and right arrows do not work to page through the springbox display.
 
-8) Add app-data file - update to lastest version
+9) Add app-data file - update to lastest version
 
-9) Remove initial phone background file for an ipad
+10) Remove initial phone background file for an ipad
    Add resized background file for later iphone's
 
-10) Add Application icon in /DATA
+11) Add Application icon in /DATA
 
-11) Update code for GCC 10.0.1 DONE 09/04/2020
+12) Update code for GCC 10.0.1 DONE 09/04/2020
 
-12) Update code for GTK4 update - branched 30/12/20
+13) Update code for GTK4 update - branched 30/12/20
