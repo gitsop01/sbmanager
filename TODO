@@ -5,7 +5,8 @@
 
    Add dbus service file, .desktop file, start and activate signals etc DONE
    
-3) It should be possible to make it a full GTK4 app with the GTK4 update branch and remove the clutter library
+3) It should be possible to make it a full GTK4 app with the GTK4 update branch and remove the clutter library completely.
+3A) Change to Meson build system for better maintenance of build system
 
 4) Refactor gui.c code for displaying folder as icons with mini-icons as per latest phone display this include
    open, move and close folder icon sections. Use clutter or gtk grid for icons on stage with gtk dnd to move them.

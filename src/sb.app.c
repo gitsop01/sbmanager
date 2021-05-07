@@ -29,10 +29,10 @@
 #include "sb.app.h"
 #include "sb.device.h"
 
-typedef struct Sbapp { 
-
+ /* typedef struct Sbapp { 
+ 
 	GtkApplication parent;
-}; 
+ }; */
 
 G_DEFINE_TYPE(SbApp, sb_app, GTK_TYPE_APPLICATION);
 
